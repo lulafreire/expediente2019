@@ -8,6 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
 
+    <!-- JQUERY Autocomplete CSS -->
+    <link rel="stylesheet" type="text/css" href="ui/jquery-ui.css"/>
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
 
@@ -18,46 +21,88 @@
   </head>
   <body>
 
-  
+  <!-- Verificar como adaptar o código para popular o select RESPOSTA dinamicamente -->
   <script type='text/javascript'>
-			$(document).ready(function(){
-				$("input[name='destinatario']").blur(function(){
-					var $cargo = $("input[name='cargo']");
-					var $orgao = $("input[name='orgao']");
-					$.getJSON('function.php',{ 
-						destinatario: $( this ).val() 
-					},function( json ){
-						$cargo.val( json.cargo );
-						$orgao.val( json.orgao );
-					});
-				});
-			});
-		</script> 
+        $(document).ready(function(){
+            $("input[name='destinatario']").blur(function(){
+                var $nome_aluno = $("input[name='nome_aluno']");
+                var $cargo = $("input[name='cargo']");
+                var $destinatario = $("input[name='destinatario']");
+                var $orgao = $("input[name='orgao']");
+                var $endereco = $("input[name='endereco']");
+                var $cep = $("input[name='cep']");
+                var $cidade = $("input[name='cidade']");
+                var $id_destinatario = $("input[name='resposta']");
+                $.getJSON('function.php',{ 
+                    destinatario: $( this ).val() 
+                },function( json ){
+                    $nome_aluno.val( json.nome_aluno );
+                    $cargo.val( json.cargo );
+                    $destinatario.val( json.nome_aluno );
+                    $orgao.val( json.orgao );
+                    $endereco.val( json.endereco );
+                    $cep.val( json.cep );
+                    $cidade.val( json.cidade );
+                    $id_destinatario.val ( json.id_destinatario );
+                });
+            });
+        });
+    </script>
 
+    <!-- Autocomplete Destinatario -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#destinatario").autocomplete({
+                source: 'search.php',
+                minLength: 0,
+            });
+        });
+    </script>
+
+    <!-- Autocomplete Resposta -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#resposta").autocomplete({
+                source: 'search_resposta.php',
+                minLength: 0,
+            });
+        });
+    </script>
         
         <div class="container-fluid mt-2">
             <div class="row">
                 <div class="col-4">
                     <div class="row">
-                        <h6><i class="fas fa-file"></i> Novo <b>OFÍCIO</b></h6>
+                        <h6><i class="far fa-file"></i> Novo <b>OFÍCIO</b></h6>
                         <hr size="1" width="100%">
                     </div>
                     <div class="row">
                         <div class="form-group col mx-0">
                             <form method="post" action="">
-                                <label for="matricula">Destinatário</label>
-                                <input name="matricula" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
+                                <label for="destinatario">Destinatário</label>
+                                <input id="destinatario" name="destinatario" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
                                 <label for="cargo">Cargo</label>
                                 <input name="cargo" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
                                 <label for="orgao">Órgão</label>
                                 <input name="orgao" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
                                 <label for="endereco">Endereço</label>
                                 <input name="endereco" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
-                                <label for="cep">CEP</label>
-                                <input name="cep" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
-                                                                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="cep">CEP</label>
+                                        <input name="cep" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="cidade">Cidade</label>
+                                        <input name="cidade" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
+                                    </div>
+                                </div>                                                                
                                 <label for="tratamento">Forma de Tratamento</label>
-                                <input name="tratamento" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
+                                <select class="form-control form-control-sm" name="tratamento" id="tratamento">
+                                    <option value="Prezado(a) Sr(a)">Prezado(a) Sr(a)</option>
+                                    <option value="Prezado(a) Sr(a)">Ilmo(a) Sr(a)</option>
+                                    <option value="Prezado(a) Sr(a)">Exmo(a) Sr(a)</option>
+                                </select>
                                 
                             </form>                    
                         </div>                        
@@ -66,8 +111,8 @@
                 <div class="col-8">
                     <div class="row">
                         <div class="col-6">
-                            <label for="destinatario">Resposta ao Ofício</label>
-                            <input name="destinatario" class="form-control form-control-sm mb-2" type="text" placeholder="Nome do Destinatário">
+                            <label for="resposta">Resposta ao Ofício</label>
+                            <input id="resposta" name="resposta" class="form-control form-control-sm mb-2" type="text" placeholder="Nome do Destinatário">
                         </div>
                         <div class="col-6">
                             <label for="destinatario">Assunto</label>
@@ -99,6 +144,8 @@
     <!-- JavaScript (Opcional) -->
     <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
     <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="ui/jquery-ui.js"></script>
     <script src="node_modules/popper.js/dist/popper.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="ckeditor/ckeditor.js"></script>

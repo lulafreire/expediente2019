@@ -21,7 +21,7 @@
   </head>
   <body>
 
-  <!-- Verificar como adaptar o código para popular o select RESPOSTA dinamicamente -->
+  <!-- Preenchimento automático do formulário -->
   <script type='text/javascript'>
         $(document).ready(function(){
             $("input[name='destinatario']").blur(function(){
@@ -32,7 +32,6 @@
                 var $endereco = $("input[name='endereco']");
                 var $cep = $("input[name='cep']");
                 var $cidade = $("input[name='cidade']");
-                var $id_destinatario = $("input[name='resposta']");
                 $.getJSON('function.php',{ 
                     destinatario: $( this ).val() 
                 },function( json ){
@@ -48,6 +47,42 @@
             });
         });
     </script>
+
+    <!-- Preenchimento automático do emissor -->
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            $("input[name='emissor']").blur(function(){
+                var $emissor = $("input[name='emissor']");
+                var $matricula = $("input[name='matricula']"); 
+                var $funcao_emissor = $("input[name='funcao_emissor']"); 
+                var $cargo_emissor = $("input[name='cargo_emissor']");                 
+                $.getJSON('function_emissor.php',{ 
+                    emissor: $( this ).val() 
+                },function( json ){
+                    $emissor.val( json.emissor );
+                    $matricula.val( json.matricula );
+                    $funcao_emissor.val( json.funcao_emissor );
+                    $cargo_emissor.val( json.cargo_emissor );                    
+                });
+            });
+        });
+    </script>
+
+    <!-- Preenchimento automático do assunto -->
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            $("input[name='resposta']").blur(function(){
+                var $assunto = $("input[name='assunto']");                
+                $.getJSON('function_resposta.php',{ 
+                    resposta: $( this ).val() 
+                },function( json ){
+                    $assunto.val( json.assunto );                    
+                });
+            });
+        });
+    </script>
+
+    
 
     <!-- Autocomplete Destinatario -->
     <script type="text/javascript">
@@ -68,6 +103,16 @@
             });
         });
     </script>
+
+    <!-- Autocomplete Emissor -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#emissor").autocomplete({
+                source: 'search_emissor.php',
+                minLength: 0,
+            });
+        });
+    </script>    
         
         <div class="container-fluid mt-2">
             <div class="row">
@@ -78,7 +123,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col mx-0">
-                            <form method="post" action="">
+                            <form method="post" action="oficio_pdf.php">
                                 <label for="destinatario">Destinatário</label>
                                 <input id="destinatario" name="destinatario" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
                                 <label for="cargo">Cargo</label>
@@ -100,11 +145,9 @@
                                 <label for="tratamento">Forma de Tratamento</label>
                                 <select class="form-control form-control-sm" name="tratamento" id="tratamento">
                                     <option value="Prezado(a) Sr(a)">Prezado(a) Sr(a)</option>
-                                    <option value="Prezado(a) Sr(a)">Ilmo(a) Sr(a)</option>
-                                    <option value="Prezado(a) Sr(a)">Exmo(a) Sr(a)</option>
-                                </select>
-                                
-                            </form>                    
+                                    <option value="Ilmo(a). Sr(a)">Ilmo(a) Sr(a)</option>
+                                    <option value="Exmo(a). Sr(a)">Exmo(a) Sr(a)</option>
+                                </select>                                                
                         </div>                        
                     </div>                    
                 </div>
@@ -112,11 +155,11 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="resposta">Resposta ao Ofício</label>
-                            <input id="resposta" name="resposta" class="form-control form-control-sm mb-2" type="text" placeholder="Nome do Destinatário">
+                            <input id="resposta" name="resposta" class="form-control form-control-sm mb-2" type="text" placeholder="Informe se é resposta a algum ofício">
                         </div>
                         <div class="col-6">
-                            <label for="destinatario">Assunto</label>
-                            <input name="destinatario" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
+                            <label for="assunto">Assunto</label>
+                            <input id="assunto" name="assunto" class="form-control form-control-sm" type="text" placeholder="Informe o assunto">
                         </div>                                          
                     </div>
                     <div class="row">
@@ -128,12 +171,22 @@
                     </div>                    
                     <div class="row">
                         <div class="col-6">
-                            <label for="destinatario">Emissor</label>
-                            <input name="destinatario" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
+                            <label for="emissor">Emissor</label>
+                            <input id="emissor" name="emissor" class="form-control form-control-sm" type="text" placeholder="Nome do emissor">
                         </div>
-                        <div class="col-6">                            
-                            <input type="submit" class="btn btn-success btn-sm mr-auto" value="Salvar">
+                        <div class="col-2">
+                            <label for="matricula">Matrícula</label>
+                            <input id="matricula" name="matricula" class="form-control form-control-sm" type="text" placeholder="Matrícula">                                                        
+                        </div>
+                        <div class="col-4">
+                            <label for="funcao_emissor">Função</label>
+                            <input id="funcao_emissor" name="funcao_emissor" class="form-control form-control-sm" type="text" placeholder="Função">                                                        
                         </div>                       
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <input type="submit" class="btn btn-success btn-sm mr-auto" value="Concluir">
+                        </div></form>
                     </div>
                 </div>
             </div>            

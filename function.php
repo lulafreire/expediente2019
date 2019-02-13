@@ -17,9 +17,6 @@ function retorna($destinatario, $conn){
 		$valores['cep'] = utf8_encode($row_aluno['cep']);
 		$valores['cidade'] = utf8_encode($row_aluno['cidade']);
 		$valores['id_destinatario'] = $row_aluno['id'];
-
-		// Pesquisar os ofícios emitidos pelo mesmo destinatário ainda sem resposta
-		// Armazenar num novo JSON e transportar para o script
 	}else{
 		$valores['nome_aluno'] = $n[1];
 		$valores['cargo'] = "";

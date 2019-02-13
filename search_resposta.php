@@ -11,7 +11,14 @@
  
 	if($rows > 0){
 		while($fetch = $query->fetch_assoc()){
-			$data['value'] = "Ofício nº ".$fetch['numero'].", de ".converteData($fetch['data']); 
+
+			$id_emissor = $fetch['emissor'];
+			$query_emissor = $conn->query("SELECT nome FROM contatos WHERE id = '$id_emissor'");
+			while($dados = $query_emissor->fetch_assoc()){
+				$nome_emissor = $dados['nome'];
+			}
+
+			$data['value'] = $fetch['id']." - Ofício nº ".$fetch['numero'].", de ".$nome_emissor.", emitido em ".converteData($fetch['data']); 
 			array_push($list, $data);
 		}
 	}

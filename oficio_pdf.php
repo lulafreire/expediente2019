@@ -1,19 +1,32 @@
 <?php
+include_once("conn.php");
 
 // Recupera dados do formulário
 if(isset($_POST))
 {
-    $destinatario = $_POST['destinatario'];
-    $texto        = $_POST['txtArtigo'];
-    $cargo        = $_POST['cargo'];
-    $orgao        = $_POST['orgao'];
-    $endereco     = $_POST['endereco'];
-    $cep          = $_POST['cep'];
-    $cidade       = $_POST['cidade'];
-    $tratamento   = $_POST['tratamento'];
-    $emissor      = $_POST['emissor'];
-    $matricula    = $_POST['matricula'];
-    $funcao       = $_POST['funcao_emissor'];
+    $destinatario    = $_POST['destinatario'];
+    $id_destinatario = $_POST['id_destinatario'];
+    $assunto         = utf8_decode($_POST['assunto']);
+    $texto           = $_POST['txtArtigo'];
+    $cargo           = $_POST['cargo'];
+    $orgao           = $_POST['orgao'];
+    $endereco        = $_POST['endereco'];
+    $cep             = $_POST['cep'];
+    $cidade          = $_POST['cidade'];
+    $tratamento      = $_POST['tratamento'];
+    $emissor         = $_POST['emissor'];
+    $id_emissor      = $_POST['id_emissor'];
+    $matricula       = $_POST['matricula'];
+    $funcao          = $_POST['funcao_emissor'];
+}
+
+// Define o número do Ofício atual
+$ano = date('Y');
+$numOficio = mysqli_query($conn, "SELECT numero FROM documentos WHERE tipo ='0' and data like '$ano-%' ORDER BY numero DESC LIMIT 1");
+while($num = mysqli_fetch_array($numOficio))
+{
+    $numAnt   = $num['numero'];
+    $numAtual = $numAnt + 1;
 }
 
 require_once 'vendor/autoload.php';
@@ -80,6 +93,7 @@ td{
     bottom: 20;
     width: 100%;    
     text-align: right;
+    font-size: smaller;
     border-top: 1px solid gray;
     margin-top: 10px;
 }
@@ -102,11 +116,11 @@ $body="
 <div id='corpo'>
     <div class='row'>
         <div class='col-12'>
-            <b>OFÍCIO Nº 126/2019/APSIRECE</b>, em 09/02/2019<br>
+            <b>OFÍCIO Nº $numAtual/$ano/APSIRECE/INSS</b>, em 09/02/2019<br>
         </div>
     </div>
     <div class='row'>    
-        <div class='col-12' style='line-height: 110%;'>        
+        <div class='col-12' style='line-height: 120%;'>        
             <p>&nbsp;<p>
             Ao(à) Senhor(a)<br>
             <b>$destinatario</b><br>
@@ -115,6 +129,9 @@ $body="
             $endereco<br>
             $cep - $cidade<br>
             <br>
+            <b>Assunto:</b>". utf8_encode($assunto).
+            "<br>
+            <br>
             <br>
             <br>        
             $tratamento,
@@ -122,7 +139,7 @@ $body="
         </div>
     </div>
     <div class='row'>
-        <div class='col-12' align='justify'>
+        <div class='col-12' align='justify' style='line-height: 120%;'>
             $texto
         </div>
     </div>
@@ -130,7 +147,7 @@ $body="
         <br>
         <br>
     <div class='row'>
-        <div class='col-12' align='center'>
+        <div class='col-12' align='center' style='line-height: 120%;'>
             Atenciosamente,
             <br>
             <br>
@@ -150,7 +167,7 @@ $footer="</tbody>
 </table>
 </div>
 <div id='footer'>
-    <div align='center'><small><b>Agência da Previdência Social em Irecê/BA</b></small><p><small>Rua Trinta e Três s/n - Centro - Irecê/BA - Fone (74) 3641-3166 e-mail: aps04024020@inss.gov.br</small></div><p class='page'><small>Página </p>
+    <div align='center'><small><b>Agência da Previdência Social em Irecê/BA</b></small><p><small>Rua Trinta e Três s/n - Centro - Irecê/BA - Fone (74) 3641-3166 e-mail: aps04024020@inss.gov.br</small></div><p class='page'><small>OFÍCIO Nº $numAtual/$ano/APSIRECE/INSS - Página </p>
 </small></div></body></html>";
 
 //concatenando as variáveis
@@ -170,5 +187,18 @@ $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
 
 // Enviando o PDF para o browser
+$dompdf-> stream("oficio_$numAtual.pdf", array("Attachment" => false));
 
-$dompdf->stream();
+//$dompdf->stream();
+
+// Verifica se o destinatário já está salvo ou precisa salvar
+$sqlDest = mysqli_query($conn, "SELECT * FROM contatos WHERE nome = '$destinatario' and orgao = '$orgao'");
+$resDest = mysqli_num_rows($sqlDest);
+if(!$resDest)
+{
+    $gravaDest = mysqli_query($conn, "INSERT INTO contatos (nome, cargo, orgao, endereco, cep, cidade) VALUES ('$destinatario', '$cargo', '$orgao', '$endereco', '$cep', '$cidade')");
+    $id_destinatario = mysqli_insert_id($gravaDest);
+}
+
+// Grava os dados do novo Ofício
+$grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, tratamento) VALUES ('$id_emissor', '$id_destinatario', '$interessado', '$assunto', '$texto', '$numAtual', curdate(), '0', '$tratamento')");

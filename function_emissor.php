@@ -13,7 +13,8 @@ function retorna($emissor, $conn){
 		$valores['emissor'] = $row_aluno['nome'];
         $valores['cargo_emissor'] = utf8_encode($row_aluno['cargo']);
         $valores['funcao_emissor'] = utf8_encode($row_aluno['funcao']);
-        $valores['matricula'] = $row_aluno['matricula'];
+		$valores['matricula'] = $row_aluno['matricula'];
+		$valores['id_emissor'] = $row_aluno['id'];
 		
 	}else{
 		$valores['emissor'] = $n[1];

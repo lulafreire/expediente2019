@@ -28,6 +28,7 @@
                 var $nome_aluno = $("input[name='nome_aluno']");
                 var $cargo = $("input[name='cargo']");
                 var $destinatario = $("input[name='destinatario']");
+                var $id_destinatario = $("input[name='id_destinatario']");
                 var $orgao = $("input[name='orgao']");
                 var $endereco = $("input[name='endereco']");
                 var $cep = $("input[name='cep']");
@@ -53,6 +54,7 @@
         $(document).ready(function(){
             $("input[name='emissor']").blur(function(){
                 var $emissor = $("input[name='emissor']");
+                var $id_emissor = $("input[name='id_emissor']");
                 var $matricula = $("input[name='matricula']"); 
                 var $funcao_emissor = $("input[name='funcao_emissor']"); 
                 var $cargo_emissor = $("input[name='cargo_emissor']");                 
@@ -62,7 +64,8 @@
                     $emissor.val( json.emissor );
                     $matricula.val( json.matricula );
                     $funcao_emissor.val( json.funcao_emissor );
-                    $cargo_emissor.val( json.cargo_emissor );                    
+                    $cargo_emissor.val( json.cargo_emissor );
+                    $id_emissor.val( json.id_emissor );                    
                 });
             });
         });
@@ -126,6 +129,7 @@
                             <form method="post" action="oficio_pdf.php">
                                 <label for="destinatario">Destinatário</label>
                                 <input id="destinatario" name="destinatario" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
+                                <input id="id_destinatario" name="id_destinatario" class="form-control form-control-sm" type="hidden">
                                 <label for="cargo">Cargo</label>
                                 <input name="cargo" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário">
                                 <label for="orgao">Órgão</label>
@@ -173,6 +177,7 @@
                         <div class="col-6">
                             <label for="emissor">Emissor</label>
                             <input id="emissor" name="emissor" class="form-control form-control-sm" type="text" placeholder="Nome do emissor">
+                            <input id="id_emissor" name="id_emissor" class="form-control form-control-sm" type="hidden">
                         </div>
                         <div class="col-2">
                             <label for="matricula">Matrícula</label>

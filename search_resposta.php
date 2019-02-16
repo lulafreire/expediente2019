@@ -4,7 +4,7 @@
  
 	$search = $_GET['term'];
  
-	$query = $conn->query("SELECT * FROM `documentos` WHERE `numero` LIKE '%$search%' ORDER BY `numero` ASC") or die(mysqli_connect_errno());
+	$query = $conn->query("SELECT * FROM `documentos` WHERE `numero` LIKE '%$search%' AND resposta ='0' ORDER BY `numero` ASC") or die(mysqli_connect_errno());
  
 	$list = array();
 	$rows = $query->num_rows;

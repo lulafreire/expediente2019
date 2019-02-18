@@ -20,23 +20,14 @@ if(isset($_POST))
     $funcao          = utf8_decode($_POST['funcao_emissor']);
 }
 
-/// Define o número do Ofício atual
+// Define o número do Ofício atual
 $ano = date('Y');
 $numOficio = mysqli_query($conn, "SELECT numero FROM documentos WHERE tipo ='0' and data like '$ano-%' ORDER BY numero DESC LIMIT 1");
-$resNumAnt = mysqli_num_rows($numOficio);
-if($resNumAnt=='')
+while($num = mysqli_fetch_array($numOficio))
 {
-    $numAnt = 0;
+    $numAnt   = $num['numero'];
+    $numAtual = $numAnt + 1;
 }
-else
-{
-    while($num = mysqli_fetch_array($numOficio))
-    {
-        $numAnt   = $num['numero'];    
-    }   
-}
-
-$numAtual = $numAnt + 1;
 
 require_once 'vendor/autoload.php';
 
@@ -136,7 +127,7 @@ $body="
             . utf8_encode($cargo). "<br>"
             . utf8_encode($orgao). "<br>"
             . utf8_encode($endereco). "<br>
-            $cep -" . utf8_encode($cidade). "<br>
+            $cep - $cidade<br>
             <br>
             <b>Assunto:</b>". utf8_encode($assunto).
             "<br>

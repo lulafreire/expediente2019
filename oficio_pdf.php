@@ -209,5 +209,14 @@ if(!$resDest)
     $id_destinatario = mysqli_insert_id($gravaDest);
 }
 
+//Verifica se o emisor já está cadastrado ou precisa cadastrar
+$sqlEmissor = mysqli_query($conn, "SELECT * FROM usuarios WHERE nome = '$emissor'");
+$resEmissor = mysqli_num_rows($sqlEmissor);
+if(!$resEmissor)
+{
+    $gravaEmissor = mysqli_query($conn, "INSERT INTO usuarios (nome, matricula, funcao) VALUES ('$emissor','$matricula','$funcao') ");
+    $id_emissor = mysqli_insert_id($gravaEmissor);
+}
+
 // Grava os dados do novo Ofício
 $grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, tratamento) VALUES ('$id_emissor', '$id_destinatario', '$interessado', '$assunto', '$texto', '$numAtual', curdate(), '0', '$tratamento')");

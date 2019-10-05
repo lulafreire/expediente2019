@@ -1,28 +1,45 @@
 <?php
+session_start();
+$codUnidade = $_SESSION['codUnidade'];
+
 include_once("conn.php");
+
+// Pesquisa os dados da unidade logada
+$sqlUnidade = mysqli_query($conn, "SELECT * FROM unidades WHERE cod = '$codUnidade'");
+while($u=mysqli_fetch_array($sqlUnidade)) {
+
+    $nomeUnidade  = $u['nome'];
+    $siglaUnidade = $u['sigla'];
+    $endUnidade   = $u['end'];
+    $telUnidade   = $u['tel'];
+    $emailUnidade = $u['email'];
+
+}
 
 // Recupera dados do formulário
 if(isset($_POST))
 {
-    $destinatario    = utf8_decode($_POST['destinatario']);
-    $id_destinatario = $_POST['id_destinatario'];
+    $contato         = utf8_decode($_POST['contato']);
+    $id_contato      = $_POST['id_contato'];
     $assunto         = utf8_decode($_POST['assunto']);
+    $interessado     = utf8_decode($_POST['interessado']);
     $texto           = utf8_decode($_POST['txtArtigo']);
     $cargo           = utf8_decode($_POST['cargo']);
     $orgao           = utf8_decode($_POST['orgao']);
     $endereco        = utf8_decode($_POST['endereco']);
     $cep             = $_POST['cep'];
-    $cidade          = utf8_decode($_POST['cidade']);
-    $tratamento      = $_POST['tratamento'];
+    $cidade          = utf8_decode($_POST['cidade']);   
     $emissor         = utf8_decode($_POST['emissor']);
     $id_emissor      = $_POST['id_emissor'];
     $matricula       = $_POST['matricula'];
     $funcao          = utf8_decode($_POST['funcao_emissor']);
+    $resposta        = utf8_decode($_POST['resposta']);
 }
 
-/// Define o número do Ofício atual
+// Define o número do Ofício atual
+$hoje = date('d/m/Y');
 $ano = date('Y');
-$numOficio = mysqli_query($conn, "SELECT numero FROM documentos WHERE tipo ='0' and data like '$ano-%' ORDER BY numero DESC LIMIT 1");
+$numOficio = mysqli_query($conn, "SELECT numero FROM documentos WHERE tipo ='0' and data like '$ano-%' and unidade = '$codUnidade' ORDER BY numero DESC LIMIT 1");
 $resNumAnt = mysqli_num_rows($numOficio);
 if($resNumAnt=='')
 {
@@ -125,7 +142,7 @@ $body="
 <div id='corpo'>
     <div class='row'>
         <div class='col-12'>
-            <b>OFÍCIO Nº $numAtual/$ano/APSIRECE/INSS</b>, em 09/02/2019<br>
+            <b>OFÍCIO Nº $numAtual/$ano/$siglaUnidade/INSS</b>, em $hoje<br>
         </div>
     </div>
     <div class='row'>    
@@ -138,9 +155,8 @@ $body="
             . utf8_encode($endereco). "<br>
             $cep -" . utf8_encode($cidade). "<br>
             <br>
-            <b>Assunto:</b>". utf8_encode($assunto).
-            "<br>
-            <br>
+            <b>Assunto:</b>". utf8_encode($assunto). "<br>
+            <b>Interessado(a):</b>". utf8_encode($interessado). "<br>
             <br>
             <br>        
             $tratamento,
@@ -176,7 +192,7 @@ $footer="</tbody>
 </table>
 </div>
 <div id='footer'>
-    <div align='center'><small><b>Agência da Previdência Social em Irecê/BA</b></small><p><small>Rua Trinta e Três s/n - Centro - Irecê/BA - Fone (74) 3641-3166 e-mail: aps04024020@inss.gov.br</small></div><p class='page'><small>OFÍCIO Nº $numAtual/$ano/APSIRECE/INSS - Página </p>
+    <div align='center'><small><b>$nomeUnidade</b></small><p><small>$endUnidade - Fone $telUnidade e-mail: $emailUnidade</small></div><p class='page'><small>OFÍCIO Nº $numAtual/$ano/$siglaUnidade/INSS - Página </p>
 </small></div></body></html>";
 
 //concatenando as variáveis
@@ -196,7 +212,7 @@ $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
 
 // Enviando o PDF para o browser
-$dompdf-> stream("oficio_$numAtual.pdf", array("Attachment" => false));
+$dompdf-> stream("oficio-$numero-$ano.pdf", array("Attachment" => false));
 
 //$dompdf->stream();
 
@@ -206,7 +222,7 @@ $resDest = mysqli_num_rows($sqlDest);
 if(!$resDest)
 {
     $gravaDest = mysqli_query($conn, "INSERT INTO contatos (nome, cargo, orgao, endereco, cep, cidade) VALUES ('$destinatario', '$cargo', '$orgao', '$endereco', '$cep', '$cidade')");
-    $id_destinatario = mysqli_insert_id($gravaDest);
+    $id_destinatario = mysqli_insert_id($conn);
 }
 
 //Verifica se o emisor já está cadastrado ou precisa cadastrar
@@ -215,8 +231,13 @@ $resEmissor = mysqli_num_rows($sqlEmissor);
 if(!$resEmissor)
 {
     $gravaEmissor = mysqli_query($conn, "INSERT INTO usuarios (nome, matricula, funcao) VALUES ('$emissor','$matricula','$funcao') ");
-    $id_emissor = mysqli_insert_id($gravaEmissor);
+    $id_emissor = mysqli_insert_id($conn);
 }
 
 // Grava os dados do novo Ofício
-$grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, tratamento) VALUES ('$id_emissor', '$id_destinatario', '$interessado', '$assunto', '$texto', '$numAtual', curdate(), '0', '$tratamento')");
+$grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, tratamento, unidade) VALUES ('$id_emissor', '$id_destinatario', '$interessado', '$assunto', '$texto', '$numAtual/$ano', curdate(), '0', '$tratamento','$codUnidade')");
+$id_oficio = mysqli_insert_id($conn);
+
+$n = explode("-", $resposta);
+$id_resposta=$n[0];
+$gravaResposta = mysqli_query($conn, "UPDATE documentos SET resposta = '$id_oficio' WHERE id = '$id_resposta'");

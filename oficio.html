@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html lang='pt-br'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+   <link rel='stylesheet' href='node_modules/css/style.css'>
+    <title>Document</title>
+</head>
+
+<style type="text/css">
+
+body {
+
+    margin: 0;
+    padding: 0;
+    font-family: 'Calibri', 'Trebuchet MS', sans-serif;
+
+}
+
+@page {
+    margin: 0.5cm 2cm 1cm 3cm;
+}
+
+.cabecalho{
+
+    background-image: url('../../img/brasao110px.png');
+    background-repeat: no-repeat;
+    background-position: center;        
+    height: 115px;
+    padding-bottom: 5px;
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 50px;
+    border-bottom: 1px solid gray;
+
+}
+
+.texto-cabecalho {
+
+    font-size: 14px;
+    text-align: center;
+    font-weight: 900;
+    top: 3.3cm;
+    position: relative;
+
+}
+
+.expediente {
+
+    font-weight: bold;
+    top: 7cm;        
+}
+
+.data-emissao {
+    
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.enderecamento {
+    
+    text-align: left;
+    margin-bottom: 20px;    
+}
+
+.assunto {
+
+    text-align: left;
+    margin-bottom: 40px;    
+}
+
+.vocativo {
+    
+    text-align: left;
+    margin-bottom: 20px;
+    margin-left: 3.3cm;
+}
+
+.corpo {
+
+    position: relative;
+    width: 100%;
+    top: 0px;
+    margin-bottom: 50px;       
+    text-align: justify;
+}
+
+
+    p {
+
+        font-size: 1em;
+        line-height: 1.75;
+    
+    }
+
+.fechamento {
+
+    text-align: left;
+    margin-bottom: 20px;    
+    margin-left: 3.3cm;
+}
+
+.emissor {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#footer {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;    
+    text-align: center;
+    font-size: 12px;
+    border-top: 1px solid gray;
+    margin-top: 10px;    
+}
+
+#footer .page:after{ 
+    content: counter(page); 
+}
+
+.page {
+    margin: 5px 0px 5px 0px;
+}
+
+
+</style>
+
+<body>
+
+    <div class='container-fluid'>
+        <div class='cabecalho'>
+
+            <div class='texto-cabecalho'>
+                INSTITUTO NACIONAL DO SEGURO SOCIAL
+            </div>
+
+        </div>
+        
+    </div>
+
+    <div class='expediente'>
+        OFÍCIO Nº 99/2019/APSIRECE/INSS
+    </div>
+
+    <div class='data-emissao'>
+        Irecê-BA, 7 de agosto de 2019.
+    </div>
+
+    <div class='enderecamento'>
+        Ao Senhor<br>
+        <strong>Manoel dos Santos</strong><br>
+        Secretário de Saúde<br>
+        Prefeitura Municipal de Irecê-BA<br>
+    </div>
+
+    <div class='assunto'>
+        <strong>Assunto: </strong> Descrição do assunto.
+    </div>
+
+    <div class='vocativo'>
+        Senhor Secretário,
+    </div>
+
+    <div class='corpo'>
+        <p>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis eu diam ac cursus. Phasellus consequat nibh nec velit commodo, eget euismod justo ornare. Integer tristique mi ligula, vel porta libero porta vel. Donec quis enim eget nulla fermentum rutrum. Nunc faucibus laoreet sagittis. Nunc nunc magna, gravida eget tellus id, molestie porttitor sapien.</p>
+        
+        <p>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sed egestas blandit augue, vitae sagittis erat. Pellentesque vulputate mauris pellentesque vehicula porttitor. Curabitur vitae maximus sapien. Vestibulum nisl ligula, venenatis non ullamcorper sed, tincidunt ac elit. Etiam ultrices consectetur gravida. Phasellus eget justo faucibus, ultricies diam at, semper turpis. Aenean nibh erat, euismod a diam gravida, lobortis congue ipsum. Praesent facilisis lobortis varius.</p>
+
+        <p>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maecenas varius laoreet eros. Nam accumsan ex dolor, et consequat dui cursus in. Praesent commodo malesuada dolor bibendum luctus. Vivamus congue risus sit amet hendrerit accumsan. Nullam semper ut massa sit amet volutpat. Aliquam tincidunt hendrerit purus, non imperdiet mauris vulputate id. Suspendisse sit amet ultrices neque.</p>
+
+        <p>4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maecenas varius laoreet eros. Nam accumsan ex dolor. Últimas palavras do pequeno parágrafo.</p>
+        
+    </div>
+
+    <div class='fechamento'>
+        Atenciosamente,
+    </div>
+
+    <div class='emissor'>
+        ______________________________________________<br>
+        <strong>LUIZ ALBERTO FREIRE DE OLIVEIRA</strong><br>
+        Gerente APS Irecê-BA<br>
+        Matrícula 1377549
+    </div>
+            
+    
+    <div id='footer'>
+        <p class='page'><strong> </p></strong>
+        <b>AGÊNCIA DA PREVIDÊNCIA SOCIAL EM IRECÊ-BA</b><br><small>Rua Trinta e Três, s/n - Lot Novo Horizonte - Fone (74) 3641-3166 - e-mail: aps04024020@inss.gov.br</small></br>        
+    </div>    
+    
+
+</body>
+</html>

@@ -10,8 +10,9 @@ function retorna($destinatario, $conn){
 	$resultado_aluno = mysqli_query($conn, $result_aluno);
 	if($resultado_aluno->num_rows){
 		$row_aluno = mysqli_fetch_assoc($resultado_aluno);
-		$valores['nome_aluno'] = $row_aluno['nome'];
-		$valores['cargo'] = $row_aluno['cargo'];
+		$valores['nome_aluno'] = utf8_encode($row_aluno['nome']);
+		$valores['tratamento'] = utf8_encode($row_aluno['tratamento']);
+		$valores['cargo'] = utf8_encode($row_aluno['cargo']);
 		$valores['orgao'] = utf8_encode($row_aluno['orgao']);
 		$valores['endereco'] = utf8_encode($row_aluno['endereco']);
 		$valores['cep'] = utf8_encode($row_aluno['cep']);
@@ -19,6 +20,7 @@ function retorna($destinatario, $conn){
 		$valores['id_destinatario'] = $row_aluno['id'];
 	}else{
 		$valores['nome_aluno'] = $n[1];
+		$valores['tratamento'] = "Prezado(a) Sr(a).";
 		$valores['cargo'] = "";
 		$valores['orgao'] = "";
 		$valores['endereco'] = "";

@@ -10,6 +10,87 @@ function diaDaSemana()
 
 }
 
+function dataExtenso($data) {
+
+	$m = explode("/", $data);
+	$dia = $m[0];
+	$mes = $m[1];
+	$ano = $m[2];
+
+	switch($mes)
+	{
+		case 1: $mes = "janeiro";
+		break;
+		case 2: $mes = "fevereiro";
+		break;
+		case 3: $mes = "março";
+		break;
+		case 4: $mes = "abril";
+		break;
+		case 5: $mes = "maio";
+		break;
+		case 6: $mes = "junho";
+		break;
+		case 7: $mes = "julho";
+		break;
+		case 8: $mes = "agosto";
+		break;
+		case 9: $mes = "setembro";
+		break;
+		case 10: $mes = "outubro";
+		break;
+		case 11: $mes = "novembro";
+		break;
+		case 12: $mes = "dezembro";
+		break;
+	}
+
+	return "$dia de $mes de $ano";
+
+}
+
+function retiraAcentos($string){
+	$acentos  =  'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ';
+	$sem_acentos  =  'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
+	$string = strtr($string, utf8_decode($acentos), $sem_acentos);
+	return utf8_decode($string);
+ }
+
+function pronomeDeTratamento($cargo, $genero) {
+
+	$tags = 'juiz,juiza,juiz de direito,juiza de direito,juiz do trabalho,juiza do trabalho,juiz titular,juiza titular,juiz substituto,juiza substituta,presidente da republica,vice-presidente da republica,presidente do congresso nacional,ministro de estado,secretario-executivo,presidente do supremo tribunal federal,deputado federal,deputado estadual,oficial-general das forças armadas,embaixador,senador,senador da republica,ministro';
+	$tagsArray = explode(',', $tags);
+	$termo = utf8_encode(strtolower(retiraAcentos($cargo)));
+
+	if (in_array($termo, $tagsArray)) {
+
+		if($genero =='M') {
+			  
+			$vocativo = 'A Sua Excelência o Senhor|Excelentíssimo Senhor '. utf8_encode($cargo);
+		  
+		} else {
+
+			$vocativo = 'A Sua Excelência a Senhora|Excelentíssima Senhora '. utf8_encode($cargo);
+			
+		}
+		  
+	} else {
+
+		if($genero =='M') {
+			  
+			$vocativo = 'Ao Senhor|Senhor '. utf8_encode($cargo);
+		  
+		} else {
+
+			$vocativo = 'À Senhora|Senhora '. utf8_encode($cargo);
+			
+		}
+	}
+
+	return $vocativo;
+
+}
+
 function converteData($data)
 {
 	if(strstr($data, "/"))
@@ -21,6 +102,44 @@ function converteData($data)
 	{
 		$d = explode("-", $data);
 		$r = "$d[2]/$d[1]/$d[0]";
+
+	}
+
+	return $r;
+}
+
+function anoEmissao($data)
+{
+	if(strstr($data, "/"))
+	{
+		$d = explode("/", $data);
+		$r = "$d[2]";
+	}
+	else
+	{
+		$d = explode("-", $data);
+		$r = "$d[0]";
+
+	}
+
+	return $r;
+}
+
+function converteDataHora($dataHora){
+
+	$dt = explode(" ", $dataHora);
+	$data = $dt[0];
+	$hora = $dt[1];
+
+	if(strstr($data, "/"))
+	{
+		$d = explode("/", $data);
+		$r = "$d[2]-$d[1]-$d[0] $hora";
+	}
+	else
+	{
+		$d = explode("-", $data);
+		$r = "$d[2]/$d[1]/$d[0] $hora";
 
 	}
 

@@ -10,7 +10,8 @@ function retorna($resposta, $conn){
 	$resultado_aluno = mysqli_query($conn, $result_aluno);
 	if($resultado_aluno->num_rows){
 		$row_aluno = mysqli_fetch_assoc($resultado_aluno);		
-		$valores['assunto'] = "Resposta ao Ofício nº ". $row_aluno['numero']. " - Ass.: ". utf8_encode($row_aluno['assunto']);		
+		$valores['assunto'] = "Resposta ao Ofício nº ". $row_aluno['numero']. " - ". utf8_encode($row_aluno['assunto']);		
+		$valores['interessado'] = utf8_encode($row_aluno['interessado']);
 	}else{		
 		$valores['assunto'] = "";		
 	}

@@ -1,0 +1,72 @@
+// Pesquisa os dados do destinatario
+$sqlDest = mysqli_query($conn, "SELECT * FROM contatos WHERE id = '$destinatario'");
+while($d = mysqli_fetch_array($sqlDest)) {
+
+    $nomeDest        = utf8_encode($d['nome']);
+    $cargo           = utf8_encode($d['cargo']);
+    $orgao           = utf8_encode($d['orgao']);
+    $endereco        = utf8_encode($d['endereco']);
+    $cep             = $d['cep'];
+    $cidade          = utf8_encode($d['cidade']);    
+
+} 
+
+// Pesquisa os dados do emissor
+$sqlEmissor = mysqli_query($conn, "SELECT * FROM usuarios WHERE id = '$emissor'");
+while($e = mysqli_fetch_array($sqlEmissor)) {
+
+    $nomeEmissor     = utf8_encode($e['nome']);
+    $matricula       = $e['matricula'];
+    $cargo           = utf8_encode($e['cargo']);
+    $funcao          = utf8_encode($e['funcao']);
+
+}
+
+
+<div id='corpo'>
+    <div class='row'>
+        <div class='col-12'>
+            <b>OFÍCIO Nº $numero/$ano/APSIRECE/INSS</b>, em $data<br>
+        </div>
+    </div>
+    <div class='row'>    
+        <div class='col-12' style='line-height: 120%;'>        
+            <p>&nbsp;<p>
+            Ao(à) Senhor(a)<br>
+            <b>". utf8_encode($destinatario). "</b><br>"
+            . utf8_encode($cargo). "<br>"
+            . utf8_encode($orgao). "<br>"
+            . utf8_encode($endereco). "<br>
+            $cep -" . utf8_encode($cidade). "<br>
+            <br>
+            <b>Assunto:</b>". utf8_encode($assunto). "<br>
+            <b>Interessado(a):</b>". utf8_encode($interessado). "<br>
+            <b>Assunto:</b>". utf8_encode($resposta). "<br>
+            <br>
+            <br>        
+            $tratamento,
+            <br>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-12' align='justify' style='line-height: 120%;'>"
+        . utf8_encode($texto).
+        "</div>
+    </div>
+        <br>
+        <br>
+        <br>
+    <div class='row'>
+        <div class='col-12' align='center' style='line-height: 120%;'>
+            Atenciosamente,
+            <br>
+            <br>
+            <br>
+            ____________________________________________________<br>
+            <b>". utf8_encode($emissor). "</b><br>
+            Matrícula $matricula<br>"
+            . utf8_encode($funcao).
+
+        "</div>
+    </div>
+</div>

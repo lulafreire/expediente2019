@@ -351,6 +351,9 @@ if(!$resEmissor)
 $grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, unidade) VALUES ('$id_emissor', '$id_contato', '$interessado', '$assunto', '$texto', '$numero', curdate(), '0', '$codUnidade')");
 $id_oficio = mysqli_insert_id($conn);
 
+// Grava o evento
+$gravaEvento = mysqli_query($conn,"insert into eventos (data, descricao, referencia) values (now(),'OFICIO EMITIDO','$id_oficio')");
+
 // Caso tenha sido resposta a algum ofício
 $n = explode("-", $resposta);
 $id_resposta=$n[0];

@@ -18,7 +18,7 @@ while($r=mysqli_fetch_array($sqlResp)) {
 if($resposta!='0') {
 
    echo "<script>
-    alert('Não é possível excluir ofícios já respondidos.'); location= 'abas.php';
+    alert('Não é possível excluir ofícios já respondidos.'); location= '$location.php?pagina=$pagina';
     </script>";
 
 } else {
@@ -45,6 +45,19 @@ if($resposta!='0') {
     $deleteOcorrencias = mysqli_query($conn, "DELETE FROM eventos WHERE referencia = '$id'");
     // Apaga do banco de dados DOCUMENTOS
     $deleteOficio = mysqli_query($conn, "DELETE FROM documentos WHERE id='$id'");
+
+    // Verifica se foi utilizado como resposta a algum ofício
+    $sqlResposta = mysqli_query($conn, "SELECT * FROM documentos WHERE resposta = '$id'");
+    while($r=mysqli_fetch_array($sqlResposta)) {
+        
+        $idOficioOriginal = $r['id'];
+
+        // Apaga a referência no Ofício original
+        $deleteResposta = mysqli_query($conn, "UPDATE documentos SET resposta ='0' WHERE id = '$idOficioOriginal'");
+
+        // Apaga o evento de resposta
+        $deleteEventoResposta = mysqli_query($conn, "DELETE FROM eventos WHERE referencia = '$idOficioOriginal' AND descricao = 'OFICIO RESPONDIDO'");
+    }
 
     header("Location: $location.php?pagina=$pagina");
 }

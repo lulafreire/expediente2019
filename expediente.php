@@ -67,7 +67,7 @@ include_once("conn.php");
                         <a class="dropdown-item" href="modelos_despachos.php" target="conteudo">Despachos</a>
                         <a class="dropdown-item" href="modelos_oficios.php" target="conteudo">Ofícios</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="criar_modelo.php" target="conteudo"><i class="fas fa-magic"></i> Criar Modelo</a>                        
+                        <a class="dropdown-item" href="novo-modelo.php" target="conteudo"><i class="fas fa-magic"></i> Criar Modelo</a>                        
                     </div>
                 </li>                
                 <li class="nav-item dropdown">
@@ -75,7 +75,7 @@ include_once("conn.php");
                         <i class="fas fa-user-tie"></i> Contatos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">                                                
-                        <a class="dropdown-item" href="cadastrar_contato.php" target="conteudo">Cadastrar</a>
+                        <a class="dropdown-item" href="novo-contato.php" target="conteudo">Cadastrar</a>
                         <a class="dropdown-item" href="sql_contatos.php" target='conteudo'>Exibir Todos</a>                        
                     </div>
                 </li>

@@ -12,7 +12,7 @@ $codUnidade = $_SESSION['codUnidade'];
  
 	if($rows > 0){
 		while($fetch = $query->fetch_assoc()){
-			$data['value'] = $fetch['id']."-".$fetch['nome']." - ".utf8_encode($fetch['orgao']); 
+			$data['value'] = $fetch['id']."-".utf8_encode($fetch['nome'])." - ".utf8_encode($fetch['orgao']); 
 			array_push($list, $data);
 		}
 	}

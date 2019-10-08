@@ -27,7 +27,7 @@ include_once("functions.php");
 // Recupera dados do formulário
 if(isset($_POST))
 {
-    $contato         = retiraAcentos(utf8_decode($_POST['contato']));
+    $contato         = utf8_decode(tratar_nome($_POST['contato']));
     $genero          = $_POST['genero'];   
     $interessado     = utf8_decode($_POST['interessado']);
     $id_contato      = $_POST['id_contato'];
@@ -42,7 +42,7 @@ if(isset($_POST))
     $emissao         = converteData($_POST['emissao']);
     $recebido        = converteData($_POST['recebido']);
     $anoEmissao      = anoEmissao($emissao);
-    $resposta        = $_POST['resposta'];   
+    $resposta        = (int)$_POST['resposta'];   
     
 }
 
@@ -173,14 +173,19 @@ if($_FILES['arquivo']['error']== 4) { // Nenhum anexo enviado, grava apenas os d
 }
 
 // Caso tenha sido resposta a algum ofício
-$n = explode("-", $resposta);
-$id_resposta=$n[0];
-$gravaResposta = mysqli_query($conn, "UPDATE documentos SET resposta = '$id' WHERE id = '$id_resposta'");
+if($resposta > 0) {
 
-if($id_resposta!='0') {
+    $n = explode("-", $resposta);
+    $id_resposta=$n[0];
+    $gravaResposta = mysqli_query($conn, "UPDATE documentos SET resposta = '$id' WHERE id = '$id_resposta'");
 
-    $gravaEvento = mysqli_query($conn, "INSERT INTO eventos (data, descricao, referencia) VALUES (now(), 'OFICIO RESPONDIDO','$id_resposta')");
+    if($id_resposta!='0') {
+
+        $gravaEvento = mysqli_query($conn, "INSERT INTO eventos (data, descricao, referencia) VALUES (now(), 'OFICIO RESPONDIDO','$id_resposta')");
+    }
+
 }
+
 
 $orgao_encode = utf8_encode($orgao);
 $contato_encode = utf8_encode($contato);

@@ -1,0 +1,29 @@
+1. Contatos   
+    - Exibir todos        
+        - Excluir
+
+2. Busca
+    - Buscar pelo número do ofício, nome do emissor, assunto, texto, resumo, interessado
+
+3. Gerenciamento
+    - Atualizar dados da Unidade
+    - Trocar chave de acesso
+
+4. Início
+    - Despachos emitidos
+    - Cartas emitidas
+
+5. Paginação
+    - Limitar links em todas as paginações
+
+6. Ajuda
+    - Sobre o aplicativo (janela)
+    - Manual do usuário (PDF)
+
+7. Modelos
+    - Emitir Carta
+    - Emitir Despachos
+
+8. Abas
+    - Cartas emitidas
+    - Despachos emitidos

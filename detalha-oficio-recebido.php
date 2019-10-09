@@ -110,37 +110,64 @@ if($resposta !='0') {
 
 } else {
 
-    if($prazo >= $hoje) {
+    // Verifica se é resposta a um ofício emitido
+    $sqlEmitido = mysqli_query($conn, "SELECT * FROM documentos WHERE tipo='0' AND resposta = '$id'");
+    $qtEmitido = mysqli_num_rows($sqlEmitido);
 
-        if($prazo > $hoje) {
-        
-            $textColor = "text-primary";
-            $textTitle = "Ofício não respondido. Prazo $dtPrazo";
+    if($qtEmitido!='') {
 
-        } else {
-            $textColor = "text-warning";
-            $textTitle = "Ofício não respondido. Prazo vence hoje: $dtPrazo";
+        while($e=mysqli_fetch_array($sqlEmitido)) {
+
+            $idEmitido     = $e['id'];
+            $numeroEmitido = $e['numero'];
+            $dtEmitido     = converteData($e['data']);
+            $anoEmitido    = anoEmissao($dtEmitido);
+
+            $textColor     = "text-success";
+            $textTitle     = "Responde a ofício emitido por $nomeUnidade";
+            $textoResposta = "<strong>Resposta:</strong> Responde ao Ofício <a href='detalha-oficio-emitido.php?id=$idEmitido'>$numeroEmitido/$anoEmitido/$siglaUnidade/INSS</a>.";
+
         }
         
 
     } else {
 
-        if($prazo !="0000-00-00") {
+
+        if($prazo >= $hoje) {
+
+            if($prazo > $hoje) {
             
-            $textColor = "text-danger";
-            $textTitle = "Ofício não respondido. Prazo ultrapassado: $dtPrazo";
-        
+                $textColor = "text-primary";
+                $textTitle = "Ofício não respondido. Prazo $dtPrazo";
+    
+            } else {
+                $textColor = "text-warning";
+                $textTitle = "Ofício não respondido. Prazo vence hoje: $dtPrazo";
+            }
+            
+    
         } else {
-
-            $textColor = "text-primary";
-            $textTitle = "Ofício não respondido. Prazo indefinido.";
-
+    
+            if($prazo !="0000-00-00") {
+                
+                $textColor = "text-danger";
+                $textTitle = "Ofício não respondido. Prazo ultrapassado: $dtPrazo";
+            
+            } else {
+    
+                $textColor = "text-primary";
+                $textTitle = "Ofício não respondido. Prazo indefinido.";
+    
+            }
+            
+    
         }
-        
+    
+        $textoResposta = "<strong>Resposta:</strong> Ofício não respondido.";
 
     }
 
-    $textoResposta = "<strong>Resposta:</strong> Ofício não respondido.";
+    
 }
 
 echo "

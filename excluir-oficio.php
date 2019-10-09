@@ -43,8 +43,12 @@ if($resposta!='0') {
 
     // Apaga do banco de dados EVENTOS
     $deleteOcorrencias = mysqli_query($conn, "DELETE FROM eventos WHERE referencia = '$id'");
+    
     // Apaga do banco de dados DOCUMENTOS
     $deleteOficio = mysqli_query($conn, "DELETE FROM documentos WHERE id='$id'");
+
+    // Deleta os arquivos HTML referentes aos Ofícios Emitidos
+    $deleteHtml = mysqli_query($conn, "DELETE FROM oficios_html WHERE referencia = '$id'");
 
     // Verifica se foi utilizado como resposta a algum ofício
     $sqlResposta = mysqli_query($conn, "SELECT * FROM documentos WHERE resposta = '$id'");

@@ -46,6 +46,25 @@ if(isset($_POST))
     
 }
 
+// Verifica se já foi gravado o ofício anteriormente
+$sqlOficio = mysqli_query($conn, "SELECT * FROM documentos WHERE numero = '$numero' AND emissor ='$id_contato' AND data='$emissao'");
+$qtOficio  = mysqli_num_rows($sqlOficio);
+if($qtOficio!='') {
+
+    while($r=mysqli_fetch_array($sqlOficio)) {
+        
+        $idOficioRecebido = $r['id'];
+
+    }
+
+    echo "<script>
+    alert('Já existe um ofício com este número, emitido pelo mesmo contato. Favor verificar.'); location= 'detalha-oficio-recebido.php?id=$idOficioRecebido';
+    </script>";
+
+    exit;
+
+}
+
 // Verifica se foi definido um prazo de resposta
 if($_POST['prazo'] == "") {
 
@@ -192,18 +211,21 @@ $contato_encode = utf8_encode($contato);
 
 echo "
 <center>
+<div class='container-fluid'>
     <div class='row'>
         <div class='col-2'>
-        </div>
-        <div class='alert alert-success col-8 mr-2' role='alert'>
-            <h4 class='alert-heading'>Sucesso!</h4>
-            <p>O Ofício nº <b>$numero</b> expedido por <b>$contato_encode</b> <i>($orgao_encode)</i><br>foi cadastrado com sucesso.</p>
-            <hr>
-            <p class='mb-0'>$msg</p>
-        </div>
-        <div class='col-2'>
+            </div>
+                <div class='alert alert-success col-8 mr-2' role='alert'>
+                    <h4 class='alert-heading'>Sucesso!</h4>
+                    <p>O Ofício nº <b>$numero</b> expedido por <b>$contato_encode</b> <i>($orgao_encode)</i><br>foi cadastrado com sucesso.</p>
+                    <hr>
+                    <p class='mb-0'>$msg</p>
+                </div>
+            <div class='col-2'>
         </div>
     </div>
+</div>
+    
 </center>";
 
 ?>

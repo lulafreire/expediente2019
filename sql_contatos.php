@@ -91,7 +91,7 @@ while($u=mysqli_fetch_array($sqlUnidade)) {
                 <td><small>$cidadeContato</td>
                 <td><a href='detalha-contato.php?id=$idContato' target='_self' class='text-dark'><i class='far fa-file-alt' title='Ver detalhes'></i></a></td>
                 <td><a href='editar-contato.php?id=$idContato' target='_self' class='text-dark'><i class='fas fa-edit' title='Editar contato'></i></a></td>
-                <td><a href='excluir-contato.php?id=$idContato' target='_self' class='text-dark'><i class='far fa-trash-alt' title='Excluir contato'></i></a></td>
+                <td><a href='excluir-contato.php?id=$idContato&location=sql_contatos&pagina=$pagina' target='_self' onclick=\"return confirm('Deseja realmente excluir $nomeContato? Serão também excluídos os ofícios recebidos e emitidos.')\"><i class='far fa-trash-alt text-dark' title='Excluir'></i></a>
                 </tr>";               
 
             } 

@@ -124,10 +124,12 @@ if($resResp !='') {
 
             $numOficioResposta = $of['numero'];
             $idOficioResposta  = $of['id'];
+            $dtOficioResposta = converteData($of['data']);
+            $anoEmissaoOficioResposta = anoEmissao($dtOficioResposta);
 
         }
 
-        $textResposta = "Respondido pelo Ofício $numOficioResposta";
+        $textResposta = "Respondido pelo Ofício nº <a href='detalha-oficio-recebido.php?id=$idOficioResposta'>$numOficioResposta/$anoEmissaoOficioResposta, de $dtOficioResposta</a>";
     
     } else {
 

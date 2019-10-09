@@ -24,7 +24,7 @@ if(isset($_POST))
 {
     $nomeContato     = retiraAcentos(utf8_decode($_POST['contato']));
     $genero          = $_POST['genero'];
-    $id_contato      = $_POST['id_contato'];
+    $id_destinatario = $_POST['id_contato'];
     $assunto         = utf8_decode($_POST['assunto']);
     $interessado     = utf8_decode($_POST['interessado']);
     $assunto         = utf8_decode($_POST['assunto']);
@@ -348,7 +348,7 @@ if(!$resEmissor)
 }
 
 // Grava os dados do novo Ofício
-$grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, unidade) VALUES ('$id_emissor', '$id_contato', '$interessado', '$assunto', '$texto', '$numero', curdate(), '0', '$codUnidade')");
+$grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, unidade) VALUES ('$id_emissor', '$id_destinatario', '$interessado', '$assunto', '$texto', '$numero', curdate(), '0', '$codUnidade')");
 $id_oficio = mysqli_insert_id($conn);
 
 // Grava o evento

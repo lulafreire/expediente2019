@@ -1,7 +1,3 @@
-1. Contatos   
-    - Exibir todos        
-        - Excluir
-
 2. Busca
     - Buscar pelo número do ofício, nome do emissor, assunto, texto, resumo, interessado
 
@@ -9,7 +5,7 @@
     - Atualizar dados da Unidade
     - Trocar chave de acesso
 
-4. Início
+4. Abas
     - Despachos emitidos
     - Cartas emitidas
 
@@ -23,7 +19,3 @@
 7. Modelos
     - Emitir Carta
     - Emitir Despachos
-
-8. Abas
-    - Cartas emitidas
-    - Despachos emitidos

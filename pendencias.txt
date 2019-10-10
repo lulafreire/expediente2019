@@ -1,3 +1,5 @@
+1. Solucionar problemas com UTF-8 em todas as tabelas.
+
 2. Busca
     - Buscar pelo número do ofício, nome do emissor, assunto, texto, resumo, interessado
 

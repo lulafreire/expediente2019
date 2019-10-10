@@ -91,6 +91,81 @@ function pronomeDeTratamento($cargo, $genero) {
 
 }
 
+$ar_especial = array(   'á'=>'&aacute;',
+                        'Á'=>'&Aacute;',
+                        'ã'=>'&atilde;',
+                        'Ã'=>'&Atilde;',
+                        'â'=>'&acirc;',
+                        'Â'=>'&Acirc;',
+                        'à'=>'&agrave;',
+                        'À'=>'&Agrave;',
+                        'é'=>'&eacute;',
+                        'É'=>'&Eacute;',
+                        'ê'=>'&ecirc;',
+                        'Ê'=>'&Ecirc;',
+                        'í'=>'&iacute;',
+                        'Í'=>'&Iacute;',
+                        'ó'=>'&oacute;',
+                        'Ó'=>'&Oacute;',
+                        'õ'=>'&otilde;',
+                        'Õ'=>'&Otilde;',
+                        'ô'=>'&ocirc;',
+                        'Ô'=>'&Ocirc;',
+                        'ú'=>'&uacute;',
+                        'Ú'=>'&Uacute;',
+                        'ç'=>'&ccedil;',
+                        'Ç'=>'&Ccedil;',
+                        ' '=>'&nbsp;',
+                        '\&'=>'\&amp;',
+                        'ˆ'=>'&circ;',
+                        '˜'=>'&tilde;',
+                        '¨'=>'&uml;',
+                        '´'=>'&cute;',
+                        '¸'=>'&cedil;',
+                        '"'=>'&quot;',
+                        '“'=>'&ldquo;',
+                        '”'=>'&rdquo;',
+                        '‘'=>'&lsquo;',
+                        '’'=>'&rsquo;',
+                        '‚'=>'&sbquo;',
+                        '„'=>'&bdquo;',
+                        'º'=>'&ordm;',
+                        'ª'=>'&ordf;',
+                        '‹'=>'&lsaquo;',
+                        '›'=>'&rsaquo;',
+                        '«'=>'&laquo;',
+                        '»'=>'&raquo;',
+                        '–'=>'&ndash;',
+                        '—'=>'&mdash;',
+                        '¯'=>'&macr;',
+                        '…'=>'&hellip;',
+                        '¦'=>'&brvbar;',
+                        '•'=>'&bull;',
+                        '‣'=>'&#8227;',
+                        '¶'=>'&para;',
+                        '§'=>'&sect;',
+                        '©'=>'&copy;',
+                        '®'=>'&reg',
+                        'ü'=>'&uuml;',
+                        'Ü'=>'&Uuml;',
+                        "'"=>'&#39;',
+                        '½'=>'&frac12;',
+                        '⅓'=>'&#8531;',
+                        '≠'=>'&ne;',
+                        '≅'=>'&cong;',
+                        '≤'=>'&le;',
+                        '≥'=>'&ge;');
+
+function conversao($palavra) { // converte texto normal para o formato html)
+    global $ar_especial;
+    return str_replace(array_keys($ar_especial), array_values($ar_especial), $palavra);
+}
+
+function desconversao($palavra) { // converte o formato html para texto normal
+    global $ar_especial;
+    return str_replace(array_values($ar_especial), array_keys($ar_especial), $palavra);
+}
+
 function tratar_nome ($string) {
 	$string = mb_strtolower(trim(preg_replace("/\s+/", " ", $string)));//transformo em minuscula toda a sentença
 	$palavras = explode(" ", $string);//explodo a sentença em um array

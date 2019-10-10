@@ -32,8 +32,8 @@ if(isset($_POST))
     $interessado     = utf8_decode($_POST['interessado']);
     $id_contato      = $_POST['id_contato'];
     $assunto         = utf8_decode($_POST['assunto']);
-    $texto           = utf8_decode($_POST['txtArtigo']);
-    $cargo           = utf8_decode($_POST['cargo']);
+    $texto           = utf8_encode($_POST['txtArtigo']);
+    $cargo           = $_POST['cargo'];
     $orgao           = utf8_decode($_POST['orgao']);
     $endereco        = utf8_decode($_POST['endereco']);
     $cep             = $_POST['cep'];
@@ -45,6 +45,13 @@ if(isset($_POST))
     $resposta        = (int)$_POST['resposta'];   
     
 }
+
+//$novoTexto = html_entity_decode($texto);
+//echo "original: $texto<br>Convertido: $novoTexto";
+//exit;
+
+$converte = desconversao($texto);
+$novoTexto = utf8_decode($converte);
 
 // Verifica se já foi gravado o ofício anteriormente
 $sqlOficio = mysqli_query($conn, "SELECT * FROM documentos WHERE numero = '$numero' AND emissor ='$id_contato' AND data='$emissao'");
@@ -91,7 +98,7 @@ if($_FILES['arquivo']['error']== 4) { // Nenhum anexo enviado, grava apenas os d
     }
 
     // Grava os dados do novo Ofício
-    $grava = mysqli_query($conn, "INSERT INTO documentos (emissor, interessado, assunto, texto, numero, data, recebido, prazo, tipo, unidade) VALUES ('$id_contato', '$interessado', '$assunto', '$texto', '$numero', '$emissao', '$recebido','$prazo', '1', '$codUnidade')");
+    $grava = mysqli_query($conn, "INSERT INTO documentos (emissor, interessado, assunto, texto, numero, data, recebido, prazo, tipo, unidade) VALUES ('$id_contato', '$interessado', '$assunto', '$novoTexto', '$numero', '$emissao', '$recebido','$prazo', '1', '$codUnidade')");
 
     // Grava o evento
 	$id = mysqli_insert_id($conn);
@@ -127,7 +134,7 @@ if($_FILES['arquivo']['error']== 4) { // Nenhum anexo enviado, grava apenas os d
         }
 
         // Grava os dados do novo Ofício
-        $grava = mysqli_query($conn, "INSERT INTO documentos (emissor, interessado, assunto, texto, numero, data, recebido, prazo, tipo, unidade) VALUES ('$id_contato', '$interessado', '$assunto', '$texto', '$numero', '$emissao', '$recebido','$prazo', '1', '$codUnidade')");
+        $grava = mysqli_query($conn, "INSERT INTO documentos (emissor, interessado, assunto, texto, numero, data, recebido, prazo, tipo, unidade) VALUES ('$id_contato', '$interessado', '$assunto', '$novoTexto', '$numero', '$emissao', '$recebido','$prazo', '1', '$codUnidade')");
 
         // Grava o evento
         $id = mysqli_insert_id($conn);
@@ -173,7 +180,7 @@ if($_FILES['arquivo']['error']== 4) { // Nenhum anexo enviado, grava apenas os d
         }
 
         // Grava os dados do novo Ofício
-        $grava = mysqli_query($conn, "INSERT INTO documentos (emissor, interessado, assunto, texto, numero, data, recebido, prazo, tipo, unidade) VALUES ('$id_contato', '$interessado', '$assunto', '$texto', '$numero', '$emissao', '$recebido','$prazo', '1', '$codUnidade')");
+        $grava = mysqli_query($conn, "INSERT INTO documentos (emissor, interessado, assunto, texto, numero, data, recebido, prazo, tipo, unidade) VALUES ('$id_contato', '$interessado', '$assunto', '$novoTexto', '$numero', '$emissao', '$recebido','$prazo', '1', '$codUnidade')");
 
         // Grava o evento Ofício Cadastrado
         $id = mysqli_insert_id($conn);

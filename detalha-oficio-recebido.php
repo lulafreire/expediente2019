@@ -66,7 +66,7 @@ while($o=mysqli_fetch_array($sqlOficio)) {
     $prazo        = $o['prazo'];
     $dtPrazo      = converteData($prazo);
     $resposta     = $o['resposta'];
-    $resumo       = $o['texto'];
+    $resumo       = utf8_encode($o['texto']);
     $anoEmissao   = anoEmissao($dtEmissao); 
 
 }

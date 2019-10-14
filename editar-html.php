@@ -29,7 +29,7 @@ if(isset($_POST))
     $assunto         = utf8_decode($_POST['assunto']);
     $interessado     = utf8_decode($_POST['interessado']);
     $assunto         = utf8_decode($_POST['assunto']);
-    $texto           = utf8_decode($_POST['txtArtigo']);
+    $texto           = utf8_encode($_POST['txtArtigo']);
     $cargo           = utf8_decode($_POST['cargo']);
     $orgao           = utf8_decode($_POST['orgao']);
     $endereco        = utf8_decode($_POST['endereco']);
@@ -41,6 +41,9 @@ if(isset($_POST))
     $funcao          = strtoupper(utf8_decode($_POST['funcao_emissor']));
     $resposta        = utf8_decode($_POST['resposta']);
 }
+
+$converte = desconversao($texto);
+$novoTexto = utf8_decode($converte);
 
 // Verifica número e data de emissão do Ofício
 $sqlNum = mysqli_query($conn, "SELECT * FROM documentos WHERE id = '$id_oficio'");
@@ -327,7 +330,7 @@ $n = explode("-", $resposta);
 $id_resposta=(int)$n[0];
 
 // Atualiza os dados do novo Ofício
-$grava = mysqli_query($conn, "UPDATE documentos set emissor = '$id_emissor', interessado = '$interessado', resposta = '$id_resposta',assunto = '$assunto', texto = '$texto' WHERE id = '$id_oficio'");
+$grava = mysqli_query($conn, "UPDATE documentos set emissor = '$id_emissor', interessado = '$interessado', resposta = '$id_resposta',assunto = '$assunto', texto = '$novoTexto' WHERE id = '$id_oficio'");
 
     $gravaEvento = mysqli_query($conn, "INSERT INTO eventos (data, descricao, referencia) VALUES (now(), 'OFICIO EDITADO','$id_oficio')");
 

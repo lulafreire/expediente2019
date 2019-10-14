@@ -229,7 +229,7 @@ $codUnidade = $_SESSION['codUnidade'];
                                 <div class="col-10">
                                     <label for="contato" class="mb-0">Destinatário</label>
                                     <input id="contato" name="contato" class="form-control form-control-sm" type="text" placeholder="Nome do Destinatário" required>
-                                    <input id="id_contato" name="id_contato" class="form-control form-control-sm" type="text">
+                                    <input id="id_contato" name="id_contato" class="form-control form-control-sm" type="hidden">
                                 </div>
                                 <div class="col-2">
                                     <label for="genero" class="mb-0">Gênero</label> <a class="text-primary" data-toggle="tooltip" data-placement="right" title="O gênero é necessário para flexionar o Pronome de Tratamento nos ofícios emitidos para este contato."><i class="fas fa-question"></i></a>

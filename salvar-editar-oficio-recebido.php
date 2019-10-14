@@ -33,11 +33,14 @@ if(isset($_POST))
     $orgao           = utf8_decode($_POST['orgao']);
     $assunto         = utf8_decode($_POST['assunto']);
     $interessado     = utf8_decode($_POST['interessado']);
-    $texto           = utf8_decode($_POST['txtArtigo']);    
+    $texto           = utf8_encode($_POST['txtArtigo']);    
     $emissao         = converteData($_POST['emissao']);
     $recebido        = converteData($_POST['recebido']);   
     
 }
+
+$converte = desconversao($texto);
+$novoTexto = utf8_decode($converte);
 
 // Verifica se foi definido um prazo de resposta
 if($_POST['prazo'] == "") {
@@ -51,7 +54,7 @@ if($_POST['prazo'] == "") {
 }
 
 // Grava os dados do Ofício
-$grava = mysqli_query($conn, "UPDATE documentos SET interessado = '$interessado', assunto = '$assunto', texto = '$texto', numero = '$numero', data = '$emissao', recebido = '$recebido', prazo = '$prazo' WHERE id='$id_oficio'");
+$grava = mysqli_query($conn, "UPDATE documentos SET interessado = '$interessado', assunto = '$assunto', texto = '$novoTexto', numero = '$numero', data = '$emissao', recebido = '$recebido', prazo = '$prazo' WHERE id='$id_oficio'");
 
 // Grava o evento
 $gravaEvento = mysqli_query($conn,"insert into eventos (data, descricao, referencia) values (now(),'OFICIO EDITADO','$id_oficio')");

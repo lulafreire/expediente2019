@@ -1,7 +1,7 @@
-1. Solucionar problemas com UTF-8 em todas as tabelas.
-
 2. Busca
     - Buscar pelo número do ofício, nome do emissor, assunto, texto, resumo, interessado
+    - Função para cutomizar a busca por NB ou número do processo judicial, 
+    quando colocar ou deixar de colocar pontos e traços
 
 3. Gerenciamento
     - Atualizar dados da Unidade
@@ -13,6 +13,7 @@
 
 5. Paginação
     - Limitar links em todas as paginações
+    - Não exibir paginação nos resultados zerados
 
 6. Ajuda
     - Sobre o aplicativo (janela)
@@ -21,3 +22,4 @@
 7. Modelos
     - Emitir Carta
     - Emitir Despachos
+

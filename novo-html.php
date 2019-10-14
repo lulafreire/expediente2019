@@ -28,7 +28,7 @@ if(isset($_POST))
     $assunto         = utf8_decode($_POST['assunto']);
     $interessado     = utf8_decode($_POST['interessado']);
     $assunto         = utf8_decode($_POST['assunto']);
-    $texto           = utf8_decode($_POST['txtArtigo']);
+    $texto           = utf8_encode($_POST['txtArtigo']);
     $cargo           = utf8_decode($_POST['cargo']);
     $orgao           = utf8_decode($_POST['orgao']);
     $endereco        = utf8_decode($_POST['endereco']);
@@ -41,6 +41,8 @@ if(isset($_POST))
     $resposta        = utf8_decode($_POST['resposta']);
 }
 
+$converte = desconversao($texto);
+$novoTexto = utf8_decode($converte);
 
 // Data e Ano
 $data = date('d/m/Y');
@@ -348,7 +350,7 @@ if(!$resEmissor)
 }
 
 // Grava os dados do novo Ofício
-$grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, unidade) VALUES ('$id_emissor', '$id_destinatario', '$interessado', '$assunto', '$texto', '$numero', curdate(), '0', '$codUnidade')");
+$grava = mysqli_query($conn, "INSERT INTO documentos (emissor, destinatario, interessado, assunto, texto, numero, data, tipo, unidade) VALUES ('$id_emissor', '$id_destinatario', '$interessado', '$assunto', '$novoTexto', '$numero', curdate(), '0', '$codUnidade')");
 $id_oficio = mysqli_insert_id($conn);
 
 // Grava o evento

@@ -32,6 +32,14 @@ $qtRec    = mysqli_num_rows($sqlQtRec);
 $sqlQtEmit = mysqli_query($conn, "SELECT * FROM documentos WHERE tipo = '0' AND unidade = '$codUnidade'");
 $qtEmit    = mysqli_num_rows($sqlQtEmit);
 
+// Pequisa a quantidade de Despachos emitidos
+$sqlQtDesp = mysqli_query($conn, "SELECT * FROM documentos WHERE tipo = '2' AND unidade = '$codUnidade'");
+$qtDesp    = mysqli_num_rows($sqlQtDesp);
+
+// Pesquisa a quantidade de Cartas emitidas
+$sqlQtCartas = mysqli_query($conn, "SELECT * FROM documentos WHERE tipo = '3' AND unidade = '$codUnidade'");
+$qtCartas    = mysqli_num_rows($sqlQtCartas);
+
 
 ?>
 <div class="container-fluid">
@@ -48,6 +56,12 @@ $qtEmit    = mysqli_num_rows($sqlQtEmit);
     <li class="nav-item">
       <a class="nav-link" title="Emitidos Não Respondidos" id="emitidos-atrasados-tab" data-toggle="tab" href="#emitidos-nrpu" role="tab" aria-controls="emitidos-nrpu" aria-selected="false"><i class='fas fa-check text-danger'></i></a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" title="Despachos Emitidos" id="despachos-tab" data-toggle="tab" href="#despachos" role="tab" aria-controls="despachos" aria-selected="false"><i class="fas fa-file-signature"></i> Despachos <b>Emitidos</b> (<?php echo "$qtDesp"; ?>)</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" title="Cartas Emitidas" id="cartas-tab" data-toggle="tab" href="#cartas" role="tab" aria-controls="cartas" aria-selected="false"><i class="far fa-envelope"></i> Cartas <b>Emitidas</b> (<?php echo "$qtCartas"; ?>)</a>
+    </li>
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="recebidos" role="tabpanel" aria-labelledby="recebidos-tab">
@@ -61,6 +75,12 @@ $qtEmit    = mysqli_num_rows($sqlQtEmit);
     </div>
     <div class="tab-pane fade" id="emitidos-nrpu" role="tabpanel" aria-labelledby="emitidos-atrasados-tab">
         <iframe name='emitidos-nrpu' width="100%" height="430" frameborder="0" scrolling="no" src="sql_emitidos-nr.php"></iframe>
+    </div>
+    <div class="tab-pane fade" id="despachos" role="tabpanel" aria-labelledby="despachos-tab">
+        <iframe name='despachos' width="100%" height="430" frameborder="0" scrolling="no" src="sql_despachos.php"></iframe>
+    </div>
+    <div class="tab-pane fade" id="cartas" role="tabpanel" aria-labelledby="cartas-tab">
+        <iframe name='cartas' width="100%" height="430" frameborder="0" scrolling="no" src="sql_cartas.php"></iframe>
     </div>
   </div>
 </div>

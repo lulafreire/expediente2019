@@ -1,9 +1,8 @@
-3. Gerenciamento
-    - Atualizar dados da Unidade
-    - Trocar chave de acesso
-
 4. Abas
     - Despachos emitidos
+        - Editar Despachos
+        - Excluir Despachos
+        - Anexar despacho (concluir)
     - Cartas emitidas
 
 5. Paginação
@@ -17,4 +16,5 @@
 7. Modelos
     - Emitir Carta
     - Emitir Despachos
+        - Numeração automática
 

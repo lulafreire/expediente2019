@@ -337,7 +337,7 @@ function contarCaracteres($texto)
 	return $restantes = 280 - $qtCaracteres;
 }
 
-function formataNumero($numero, $origem)
+function formataNumero($numero)
 {
 	$qNum = strlen($numero);
 
@@ -361,28 +361,16 @@ function formataNumero($numero, $origem)
 			return $numero = "$n01.$n02.$n03-$n04";
 		break;
 
-		case 17: //PROTOCOLO SIPPS ou CTC
-			if($origem == 'CNIS')
-			{
-				$n01 = substr($numero, 0, 5);
-				$n02 = substr($numero, 5, 6);
-				$n03 = substr($numero, 11, 4);
-				$n04 = substr($numero, 15, 2);
+		case 20: // Ação Judicial
+			$n01 = substr($numero, 0, 7);
+			$n02 = substr($numero, 7, 2);
+			$n03 = substr($numero, 9, 4);
+			$n04 = substr($numero, 13, 1);
+			$n05 = substr($numero, 14, 2);
+			$n06 = substr($numero, 16, 4);
 
-				return $numero = "$n01.$n02/$n03-$n04";
-			}
-
-			if($origem == 'CTC')
-			{
-				$n01 = substr($numero, 0, 8);
-				$n02 = substr($numero, 8, 1);
-				$n03 = substr($numero, 9, 5);
-				$n04 = substr($numero, 14, 2);
-				$n05 = substr($numero, 16, 1);
-
-				return $numero = "$n01.$n02.$n03/$n04-$n05";
-			}			
-		break;
+			return $numero = "$n01-$n02.$n03.$n04.$n05.$n06";
+		break;		
 
 		default: // Outros formatos indefinidos
 			return $numero;

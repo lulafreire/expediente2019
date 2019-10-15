@@ -1,9 +1,34 @@
 <?php
 session_start();
 
+include_once("conn.php");
+include_once("functions.php");
+
 $codUnidade = $_SESSION['codUnidade'];
 
 $termo= $_GET['termo'];
+
+$numero = formataNumero(preg_replace("/[^0-9]/", "", $termo));
+
+if($numero!='') {
+
+  $sqlOpt01 = "tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+  $sqlOpt02 = " OR tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+  $sqlOpt03 = "tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+  $sqlOpt04 = " OR tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+  $sqlOpt05 = " OR tipo = '1' AND unidade = '$codUnidade' AND numero = '$numero'";
+  $sqlOpt06 = " OR tipo = '0' AND unidade = '$codUnidade' AND numero = '$numero'";
+
+} else {
+
+  $sqlOpt01 = "";
+  $sqlOpt02 = "";
+  $sqlOpt03 = "";
+  $sqlOpt04 = "";
+  $sqlOpt05 = "";
+  $sqlOpt06 = "";
+
+}
 
 ?>
 
@@ -60,18 +85,17 @@ $termo= $_GET['termo'];
             <tbody>
                 
             <?php
-
-            include_once("conn.php");
-            include_once("functions.php");
-
             // Pesquisa os Ofícios Emitidos
             $emitidos = mysqli_query($conn, "SELECT * FROM documentos WHERE 
             tipo = '0' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
             tipo = '0' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
             tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
             tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+            $sqlOpt03 
             tipo = '0' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
-            tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$termo%' ORDER BY id DESC");
+            tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+            $sqlOpt04
+            $sqlOpt06 ORDER BY id DESC");
             $qtEmitidos = mysqli_num_rows($emitidos);
 
             // Paginação

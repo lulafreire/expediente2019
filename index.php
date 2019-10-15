@@ -116,7 +116,7 @@
       <label for="matricula" class="sr-only">Código da Unidade</label>
       <input name="codigo" type="text" class="form-control mb-3" onkeypress="formatar_mascara(this, '##.###.###')" maxlength="10" placeholder="Código da Unidade" required autofocus>
       <label for="password" class="sr-only">Chave de Acesso</label>
-      <input name="chave" type="password" class="form-control mb-3" placeholder="Chave de Acesso" required>
+      <input name="chave" type="password" class="form-control mb-3" placeholder="Chave de Acesso">
       <i class="fas fa-key"></i> <a href="forgot.php"><span class="text-light link mb-3">Recuperar Chave de Acesso.</span></a>
       <div class="row">
         <div class="col-12 mt-2">

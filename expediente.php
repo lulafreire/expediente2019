@@ -106,8 +106,8 @@ include_once("conn.php");
                     <small><i class="fas fa-map-marker-alt"></i> <?php echo "Sua Unidade: <strong>$codUnidade - $nomeUnidade</strong>"; ?></small>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">                    
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalMeusDados">Atualizar Dados da Unidade</a>
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalTrocaSenha">Trocar Chave de Acesso</a>
+                    <a class="dropdown-item" href="editar-unidade.php" target='conteudo'>Atualizar Dados da Unidade</a>
+                    <a class="dropdown-item" href="editar-chave.php" target='conteudo'>Trocar Chave de Acesso</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="sair.php"><i class="far fa-times-circle text-danger"></i> Sair</a>
                     </div>

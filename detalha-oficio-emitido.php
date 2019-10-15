@@ -58,7 +58,7 @@ while($o=mysqli_fetch_array($sqlOficio)) {
     $emissor      = $o['emissor'];
     $assunto      = utf8_encode($o['assunto']);
     $destinatario = $o['destinatario'];
-    $interessado  = $o['interessado'];
+    $interessado  = utf8_encode($o['interessado']);
     $data         = $o['data'];
     $dtEmissao    = converteData($data);
     $recebido     = $o['recebido'];
@@ -178,6 +178,7 @@ echo "
             <b>Destinatário:</b> $nomeDest<br>
             <b>Cargo:</b> $cargo<br>
             <b>Órgão:</b> $orgao<br>
+            <b>Interesssado:</b> $interessado<br>
             <hr size='1' width='100%'>
             <b>Emitido em:</b> $dtEmissao<br>
             <b>Recebido em:</b> $dtRecebido <br>

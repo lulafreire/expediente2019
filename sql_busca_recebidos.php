@@ -1,9 +1,34 @@
 <?php
 session_start();
 
+include_once("conn.php");
+include_once("functions.php");
+
 $codUnidade = $_SESSION['codUnidade'];
 
 $termo= $_GET['termo'];
+
+$numero = formataNumero(preg_replace("/[^0-9]/", "", $termo));
+
+if($numero!='') {
+
+    $sqlOpt01 = "tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+    $sqlOpt02 = " OR tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+    $sqlOpt03 = "tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+    $sqlOpt04 = " OR tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+    $sqlOpt05 = " OR tipo = '1' AND unidade = '$codUnidade' AND numero = '$numero'";
+    $sqlOpt06 = " OR tipo = '0' AND unidade = '$codUnidade' AND numero = '$numero'";
+  
+  } else {
+  
+    $sqlOpt01 = "";
+    $sqlOpt02 = "";
+    $sqlOpt03 = "";
+    $sqlOpt04 = "";
+    $sqlOpt05 = "";
+    $sqlOpt06 = "";
+  
+  }
 
 ?>
 
@@ -52,10 +77,7 @@ $termo= $_GET['termo'];
             </thead>
             <tbody>
                 
-            <?php
-
-            include_once("conn.php");
-            include_once("functions.php");
+            <?php          
 
             // Pesquisa os Ofícios Recebidos
             $recebidos = mysqli_query($conn, "SELECT * FROM documentos WHERE 
@@ -63,8 +85,10 @@ $termo= $_GET['termo'];
             tipo = '1' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
             tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
             tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+            $sqlOpt01
             tipo = '1' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
-            tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$termo%' ORDER BY id DESC");
+            tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+            $sqlOpt02 $sqlOpt05 ORDER BY id DESC");
             $qtRecebidos = mysqli_num_rows($recebidos);
 
             // Paginação
@@ -85,8 +109,10 @@ $termo= $_GET['termo'];
             tipo = '1' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
             tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
             tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+            $sqlOpt01
             tipo = '1' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
-            tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$termo%' ORDER by id DESC LIMIT $inicio, $oficiosPorPagina");
+            tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+            $sqlOpt02 $sqlOpt05 ORDER by id DESC LIMIT $inicio, $oficiosPorPagina");
             
             while($r=mysqli_fetch_array($res_recebidos)) {
 

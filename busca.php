@@ -20,14 +20,40 @@ while($u=mysqli_fetch_array($sqlUnidade)) {
 
 $termo = $_POST['q'];
 
+$numero = formataNumero(preg_replace("/[^0-9]/", "", $termo));
+
+if($numero!='') {
+
+  $sqlOpt01 = "tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+  $sqlOpt02 = " OR tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+  $sqlOpt03 = "tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+  $sqlOpt04 = " OR tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+  $sqlOpt05 = " OR tipo = '1' AND unidade = '$codUnidade' AND numero = '$numero'";
+  $sqlOpt06 = " OR tipo = '0' AND unidade = '$codUnidade' AND numero = '$numero'";
+
+} else {
+
+  $sqlOpt01 = "";
+  $sqlOpt02 = "";
+  $sqlOpt03 = "";
+  $sqlOpt04 = "";
+  $sqlOpt05 = "";
+  $sqlOpt06 = "";
+
+}
+
+
 // Pesquisa a quantidade de ofícios Recebidos e Emitidos
 $sqlQtRec = mysqli_query($conn, "SELECT * FROM documentos WHERE 
 tipo = '1' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
 tipo = '1' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
 tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
 tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+$sqlOpt01
 tipo = '1' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
-tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'");
+tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+$sqlOpt02
+$sqlOpt05");
 $qtRec    = mysqli_num_rows($sqlQtRec);
 
 $sqlQtEmit = mysqli_query($conn, "SELECT * FROM documentos WHERE 
@@ -35,8 +61,11 @@ tipo = '0' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COL
 tipo = '0' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
 tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
 tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+$sqlOpt03 
 tipo = '0' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
-tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'");
+tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+$sqlOpt04
+$sqlOpt06");
 $qtEmit    = mysqli_num_rows($sqlQtEmit);
 
 

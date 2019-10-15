@@ -1,8 +1,3 @@
-2. Busca
-    - Buscar pelo número do ofício, nome do emissor, assunto, texto, resumo, interessado
-    - Função para cutomizar a busca por NB ou número do processo judicial, 
-    quando colocar ou deixar de colocar pontos e traços
-
 3. Gerenciamento
     - Atualizar dados da Unidade
     - Trocar chave de acesso

@@ -1,0 +1,195 @@
+<?php
+session_start();
+$codUnidade = $_SESSION['codUnidade'];
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Meta tags Obrigatórias -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+    <!-- JQUERY Autocomplete CSS -->
+    <link rel="stylesheet" type="text/css" href="ui/jquery-ui.css"/>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+
+    <!-- JQUERY completar formulário -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+
+    <title>.:: Expediente ::.</title>
+  </head>
+  <body>
+
+  <style type="text/css">
+        label {
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+
+    
+  <!-- Utilizando Modelos -->
+  <?php
+    include_once("conn.php");
+    include_once("functions.php");
+
+    if(isset($_GET['idModelo'])) {
+
+        $idModelo = $_GET['idModelo'];
+        $sqlModelo = mysqli_query($conn, "SELECT texto FROM modelos WHERE id = '$idModelo'");
+        while($m = mysqli_fetch_array($sqlModelo)) {
+
+            $textoModelo = utf8_encode($m['texto']);
+
+        }
+
+    } else {
+
+        $textoModelo = "";
+
+    }
+    
+  ?>
+
+    <!-- Preenchimento automático do emissor -->
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            $("input[name='emissor']").blur(function(){
+                var $emissor = $("input[name='emissor']");
+                var $id_emissor = $("input[name='id_emissor']");
+                var $matricula = $("input[name='matricula']"); 
+                var $funcao_emissor = $("input[name='funcao_emissor']"); 
+                var $cargo_emissor = $("input[name='cargo_emissor']");                 
+                $.getJSON('function_emissor.php',{ 
+                    emissor: $( this ).val() 
+                },function( json ){
+                    $emissor.val( json.emissor );
+                    $matricula.val( json.matricula );
+                    $funcao_emissor.val( json.funcao_emissor );
+                    $cargo_emissor.val( json.cargo_emissor );
+                    $id_emissor.val( json.id_emissor );                    
+                });
+            });
+        });
+    </script>          
+
+    <!-- Autocomplete Emissor -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#emissor").autocomplete({
+                source: 'search_emissor.php',
+                minLength: 0,
+            });
+        });
+    </script>
+
+    <!-- Habilitar/Desabilitar numeração manual -->
+    <script>
+        function Habilitar(chk,campo) {
+            var cmp = document.getElementById(campo);
+            if(chk.checked)
+            cmp.disabled = false;
+            else
+            cmp.disabled = true;
+        }
+    </script>   
+        
+        <div class="container-fluid mt-2">
+            <div class="row">
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-8">
+                            <h6 style="border-bottom: 1px solid #C0C0C0; padding: 6px"><i class="fas fa-file-signature"></i> Emitir <b>DESPACHO</b></h6>
+                        </div>
+                        <div class="col-4">
+                            <form id="form1" name="form1" method="post" action="novo-despacho-html.php">
+                            <input type="checkbox" name="numeracao" onClick="Habilitar(this,'campo1');"> <label for="numero">Nº Manual</label> <a class="text-primary" data-toggle="tooltip" data-placement="right" title="Habilita a numeração manual caso não deseje que o sistema gere o número automaticamente."><i class="fas fa-question"></i></a>
+                            <input type="text" class="form-control form-control-sm" name="numero" id="campo1" disabled>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="referencia" class="mb-0">Referência</label>
+                                    <input id="referencia" name="referencia" class="form-control form-control-sm" type="text" placeholder="NB/SIPPS/PROTOCOLO" required>                                    
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="interessado" class="mb-0">Interessado</label>
+                                    <input id="interessado" name="interessado" class="form-control form-control-sm" type="text" placeholder="Nome do interessado" required>                                    
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="assunto" class="mb-0">Assunto</label>
+                                    <input id="assunto" name="assunto" class="form-control form-control-sm" type="text" placeholder="Descrever o assunto" required>                                    
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                <label for="emissor" class="mb-0">Emissor</label>
+                                    <input id="emissor" name="emissor" class="form-control form-control-sm" type="text" placeholder="Nome do emissor">
+                                    <input id="id_emissor" name="id_emissor" class="form-control form-control-sm" type="hidden">                                    
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="matricula" class="mb-0">Matrícula</label>
+                                    <input id="matricula" name="matricula" class="form-control form-control-sm" type="text" placeholder="Matrícula">                                                        
+                                </div>
+                                <div class="col-8">
+                                    <label for="funcao_emissor" class="mb-0">Função</label>
+                                    <input id="funcao_emissor" name="funcao_emissor" class="form-control form-control-sm" type="text" placeholder="Função">                                                        
+                                </div>                                
+                            </div>                             
+                        </div>                
+                    </div>                                                                                 
+                </div>
+                <div class="col-7">                    
+                    <div class="row">
+                        <div class="col">
+                            <div id="dvCentro">
+                                <textarea id="txtArtigo" name="txtArtigo"><?php echo "$textoModelo"; ?></textarea>
+                            </div>
+                        </div>                        
+                    </div>                                        
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <input type="submit" class="btn btn-success btn-sm mr-auto" value="Concluir">
+                        </div></form>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        
+    
+
+    <!-- JavaScript (Opcional) -->
+    <!-- JavaScript (Opcional) -->    
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="ui/jquery-ui.js"></script>
+    <script src="node_modules/popper/dist/popper2.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="ckeditor/ckeditor.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    
+    <!-- CKEditor -->
+    <script>
+            CKEDITOR.replace( 'txtArtigo', {tabSpaces: 25});
+    </script>
+  </body>
+</html>

@@ -97,8 +97,8 @@ $codUnidade = $_SESSION['codUnidade'];
         <i class="fas fa-plus text-success"></i> <strong>ANEXAR NOVO DOCUMENTO</strong>
     </div>
     <div class="border-bottom py-3">        
-        <form method="post" action="salvar-anexo-oficio-emitido.php" enctype="multipart/form-data">
-            <input type='hidden' name='id_oficio' value='<?php echo "$id"; ?>'><input type='text' size='60' maxlength='100' name='descricao' placeholder='Descrição'> <input class='form-control-sm mb-2' type='file' name='arquivo'> <input type="submit" class="btn btn-success btn-sm mr-auto" value="Enviar">
+        <form method="post" action="salvar-anexo-despacho-emitido.php" enctype="multipart/form-data">
+            <input type='hidden' name='id_despacho' value='<?php echo "$id"; ?>'><input type='text' size='60' maxlength='100' name='descricao' placeholder='Descrição'> <input class='form-control-sm mb-2' type='file' name='arquivo'> <input type="submit" class="btn btn-success btn-sm mr-auto" value="Enviar">
         </form>
     </div>
 </div>

@@ -88,7 +88,7 @@ while($h = mysqli_fetch_array($sqlHtml)) {
 echo "
 <div class='container-fluid'>
 
-    <h6><strong>DETALHES DO OFÍCIO</strong></h6>
+    <h6><strong>DETALHES DO DESPACHO</strong></h6>
     <hr size='1' width='100%'>
 
     <div class='row'>

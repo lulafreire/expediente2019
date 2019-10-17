@@ -51,11 +51,15 @@ include_once("conn.php");
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-file-alt"></i> Ofícios
+                        <i class="fas fa-file-alt"></i> Novo
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="receber-oficio.php" target="conteudo">Receber Ofício</a>
-                        <a class="dropdown-item" href="novo-oficio.php" target="conteudo">Emitir Ofício</a>                                            
+                        <a class="dropdown-item" href="novo-oficio.php" target="conteudo">Emitir Ofício</a> 
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="novo-despacho.php" target="conteudo"><i class="fas fa-file-signature"></i> Emitir Despacho</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="novo-carta.php" target="conteudo"><i class="far fa-envelope"></i> Emitir Carta</a>                                           
                     </div>
                 </li>
                 <li class="nav-item dropdown">

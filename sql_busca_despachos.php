@@ -1,7 +1,40 @@
 <?php
 session_start();
 
+include_once("conn.php");
+include_once("functions.php");
+
 $codUnidade = $_SESSION['codUnidade'];
+
+$termo= $_GET['termo'];
+
+$numero = formataNumero(preg_replace("/[^0-9]/", "", $termo));
+
+if($numero!='') {
+
+    $sqlOpt01 = "tipo = '1' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+    $sqlOpt02 = " OR tipo = '1' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+    $sqlOpt03 = "tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+    $sqlOpt04 = " OR tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+    $sqlOpt05 = " OR tipo = '1' AND unidade = '$codUnidade' AND numero = '$numero'";
+    $sqlOpt06 = " OR tipo = '0' AND unidade = '$codUnidade' AND numero = '$numero'";
+    $sqlOpt07 = "tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+    $sqlOpt08 = " OR tipo = '2' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+    $sqlOpt09 = " OR tipo = '2' AND unidade = '$codUnidade' AND numero = '$numero'";
+  
+  } else {
+  
+    $sqlOpt01 = "";
+    $sqlOpt02 = "";
+    $sqlOpt03 = "";
+    $sqlOpt04 = "";
+    $sqlOpt05 = "";
+    $sqlOpt06 = "";
+    $sqlOpt07 = "";
+    $sqlOpt08 = "";
+    $sqlOpt09 = "";
+  
+  }
 
 ?>
 
@@ -35,7 +68,7 @@ $codUnidade = $_SESSION['codUnidade'];
 </script>
 
 <div class="container-fluid">
-    <div class='row mt-3' style="min-height: 375px;">
+    <div class='row mt-3' style="min-height: 340px;">
         <div class="col-12">
 
             <table class="table table-hover">
@@ -56,28 +89,43 @@ $codUnidade = $_SESSION['codUnidade'];
             <tbody>
                 
             <?php
-
-            include_once("conn.php");
-            include_once("functions.php");
-
-            // Pesquisa os Ofícios Recebidos
-            $despachos = mysqli_query($conn, "SELECT * from documentos where tipo = '2' AND unidade = '$codUnidade' ORDER by id DESC");
+            // Pesquisa os Ofícios Emitidos
+            $despachos = mysqli_query($conn, "SELECT * FROM documentos WHERE 
+            tipo = '2' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+            tipo = '2' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
+            tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+            tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+            $sqlOpt07
+            tipo = '2' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+            tipo = '2' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+            $sqlOpt08
+            $sqlOpt09 ORDER BY id DESC");
             $qtdespachos = mysqli_num_rows($despachos);
 
             // Paginação
-            $pagina = (isset($_GET['pagina']))? $_GET['pagina']: 1;
+            $pagina = (isset($_GET['pagina']))? $_GET['pagina']: 1;            
                     
             // Ofícios por página
-            $despachosPorPagina = 7;
+            $oficiosPorPagina = 5;
 
             // Total de páginas
-            $totalPaginas = ceil($qtdespachos / $despachosPorPagina);
+            $totalPaginas = ceil($qtdespachos / $oficiosPorPagina);
 
             // Início
-            $inicio = ($despachosPorPagina * $pagina) - $despachosPorPagina;
+            $inicio = ($oficiosPorPagina * $pagina) - $oficiosPorPagina;
 
             // Selecionar para paginação
-            $res_despachos = mysqli_query($conn, "SELECT * from documentos where tipo = '2' AND unidade = '$codUnidade' ORDER by id DESC LIMIT $inicio, $despachosPorPagina");
+            $res_despachos = mysqli_query($conn, "SELECT * FROM documentos WHERE 
+            tipo = '2' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+            tipo = '2' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
+            tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+            tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+            $sqlOpt07
+            tipo = '2' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+            tipo = '2' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+            $sqlOpt08
+            $sqlOpt09 ORDER by id DESC LIMIT $inicio, $oficiosPorPagina");
+                        
             while($r=mysqli_fetch_array($res_despachos)) {
 
                 $id           = $r['id'];
@@ -92,7 +140,7 @@ $codUnidade = $_SESSION['codUnidade'];
                 
                 $r = explode("|", $resumo);
                 $referencia =$r[0];
-                $texto = $r['1'];
+                $texto = $r['1'];                
 
                 // Pesquisa o nome do emissor
                 $sqlEmissor = mysqli_query($conn, "SELECT * FROM usuarios WHERE id = '$emissor'");
@@ -116,7 +164,7 @@ $codUnidade = $_SESSION['codUnidade'];
 
                 }
 
-                // Pesquisa o arquivo HTML gerado para o despacho
+                // Pesquisa o arquivo HTML gerado para o ofício
                 $sqlHtml = mysqli_query($conn, "SELECT * FROM oficios_html WHERE referencia = '$id'");
                 while($h = mysqli_fetch_array($sqlHtml)) {
 
@@ -136,8 +184,8 @@ $codUnidade = $_SESSION['codUnidade'];
                     <td><a href='dompdf.php?arquivo=$arquivoHtml&nome_arquivo=DESPACHO-$numero-$anoEmissao-$siglaUnidade' target='_blanc' class='text-dark'><i class='fas fa-file-download' title='Abrir Despacho'></i></a></td>                
                     <td><a href='anexar-despacho-emitido.php?id=$id' target='_parent' class='text-dark'><i class='fas fa-paperclip' title='Anexar documento'></i></a></td>                
                     <td><a href='excluir-despacho.php?id=$id&location=sql_despachos&pagina=$pagina' target='_self' class='text-dark'><i class='far fa-trash-alt' title='Excluir'></i></a></td>                    
-                </tr>";
-                
+                </tr>";                
+
             }
             
             ?>
@@ -147,22 +195,25 @@ $codUnidade = $_SESSION['codUnidade'];
         </div>
     </div>
 
+<?php
+if($qtdespachos>0) {
+?>
     <div class='row'>
         <div class="col-12">
             <nav aria-label="Navegação de página exemplo">
                 <ul class="pagination pagination-sm justify-content-end">
-                    <li class="page-item"><a class="page-link" href="sql_despachos.php?pagina=1">Primeira</a></li>
+                    <li class="page-item"><a class="page-link" href="sql_busca_despachos.php?pagina=1&termo=<?php echo "$termo"; ?>">Primeira</a></li>
                     <?php 
 
                         for($i = 1; $i < $totalPaginas + 1; $i++) {
 
                             if($i == $pagina) {
 
-                                echo "<li class='page-item active'><a class='page-link' href='sql_despachos.php?pagina=$i'>$i</a></li>";
+                                echo "<li class='page-item active'><a class='page-link' href='sql_busca_despachos.php?pagina=$i&termo=$termo'>$i</a></li>";
 
                             } else {
 
-                                echo "<li class='page-item'><a class='page-link' href='sql_despachos.php?pagina=$i'>$i</a></li>";
+                                echo "<li class='page-item'><a class='page-link' href='sql_busca_despachos.php?pagina=$i&termo=$termo'>$i</a></li>";
 
                             }
                             
@@ -170,11 +221,15 @@ $codUnidade = $_SESSION['codUnidade'];
                         }
                     
                     ?>                
-                    <li class="page-item"><a class="page-link" href="sql_despachos.php?pagina=<?php echo "$totalPaginas"; ?>">Última</a></li>
+                    <li class="page-item"><a class="page-link" href="sql_busca_despachos.php?pagina=<?php echo "$totalPaginas"; ?>&termo=<?php echo "$termo"; ?>">Última</a></li>
                 </ul>
             </nav>
         </div>
     </div>
+<?php
+}
+?>
+
 </div>
 
 

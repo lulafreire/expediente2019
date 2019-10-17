@@ -2,8 +2,12 @@
     - Despachos emitidos
         - Editar Despachos
         - Excluir Despachos
-        - Anexar despacho (concluir)
     - Cartas emitidas
+        - Editar
+        - Excluir
+        - Detalhar
+        - Anexar
+        - Download
 
 5. Paginação
     - Limitar links em todas as paginações
@@ -15,6 +19,7 @@
 
 7. Modelos
     - Emitir Carta
-    - Emitir Despachos
-        - Numeração automática
+
+8. Busca
+    - Cartas
 

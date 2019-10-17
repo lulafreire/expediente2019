@@ -30,6 +30,9 @@ if($numero!='') {
   $sqlOpt04 = " OR tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
   $sqlOpt05 = " OR tipo = '1' AND unidade = '$codUnidade' AND numero = '$numero'";
   $sqlOpt06 = " OR tipo = '0' AND unidade = '$codUnidade' AND numero = '$numero'";
+  $sqlOpt07 = "tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+  $sqlOpt08 = " OR tipo = '2' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+  $sqlOpt09 = " OR tipo = '2' AND unidade = '$codUnidade' AND numero = '$numero'";
 
 } else {
 
@@ -39,6 +42,9 @@ if($numero!='') {
   $sqlOpt04 = "";
   $sqlOpt05 = "";
   $sqlOpt06 = "";
+  $sqlOpt07 = "";
+  $sqlOpt08 = "";
+  $sqlOpt09 = "";
 
 }
 
@@ -67,6 +73,19 @@ tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
 $sqlOpt04
 $sqlOpt06");
 $qtEmit    = mysqli_num_rows($sqlQtEmit);
+
+// Pesquisa a quantidade de Despachos Emitidos
+$sqlQtDesp = mysqli_query($conn, "SELECT * FROM documentos WHERE 
+tipo = '2' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+tipo = '2' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
+tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+$sqlOpt07
+tipo = '2' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+tipo = '2' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+$sqlOpt08
+$sqlOpt09");
+$qtDesp    = mysqli_num_rows($sqlQtDesp);
 
 
 ?>
@@ -100,6 +119,9 @@ $qtEmit    = mysqli_num_rows($sqlQtEmit);
     </li>    
     <li class="nav-item">
       <a class="nav-link" id="emitidos-tab" data-toggle="tab" href="#emitidos" role="tab" aria-controls="profile" aria-selected="false"><i class='fas fa-file-alt'></i> Ofícios <b>Emitidos</b> (<?php echo "$qtEmit"; ?>)</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" title="Despachos Emitidos" id="despachos-tab" data-toggle="tab" href="#despachos" role="tab" aria-controls="despachos" aria-selected="false"><i class="fas fa-file-signature"></i> Despachos <b>Emitidos</b> (<?php echo "$qtDesp"; ?>)</a>
     </li>   
   </ul>
   <div class="tab-content" id="myTabContent">
@@ -108,6 +130,9 @@ $qtEmit    = mysqli_num_rows($sqlQtEmit);
     </div>
     <div class="tab-pane fade" id="emitidos" role="tabpanel" aria-labelledby="emitidos-tab">
         <iframe name='emitidos' width="100%" height="400" frameborder="0" scrolling="no" src="sql_busca_emitidos.php?termo=<?php echo"$termo"; ?>"></iframe>    
+    </div>
+    <div class="tab-pane fade" id="despachos" role="tabpanel" aria-labelledby="despachos-tab">
+        <iframe name='despachos' width="100%" height="400" frameborder="0" scrolling="no" src="sql_busca_despachos.php?termo=<?php echo"$termo"; ?>"></iframe>    
     </div>    
   </div>
 

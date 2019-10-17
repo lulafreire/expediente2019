@@ -63,7 +63,7 @@
                 <tr>            
                 <td><small>$descricao</small></td>            
                 <td><a href='modelo_pdf.php?idModelo=$idModelo' target='modelo' class='text-dark'><i class='fas fa-search' title='Visualizar'></i></a></td>
-                <td><a href='novo-oficio.php?idModelo=$idModelo' target='conteudo' class='text-dark'><i class='fas fa-check' title='Utilizar este modelo'></i></a></td>
+                <td><a href='novo-despacho.php?idModelo=$idModelo' target='conteudo' class='text-dark'><i class='fas fa-check' title='Utilizar este modelo'></i></a></td>
                 <td><a href='editar-modelo.php?idModelo=$idModelo' target='_self' class='text-dark'><i class='fas fa-edit' title='Editar modelo'></i></a></td>
                 <td><a href='excluir-modelo.php?idModelo=$idModelo' target='_self' class='text-dark'><i class='fas fa-trash-alt' title='Excluir modelo'></i></a></td>
                 </tr>";               

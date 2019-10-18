@@ -96,8 +96,10 @@ echo "
             <b>Número:</b> $numero/$anoEmissao/$siglaUnidade/INSS<br>
             <b>Referência:</b> $referencia<br>
             <b>Interessado:</b> $interessado<br>
-            <b>Assunto:</b> $assunto<br>            
-            <b>Emitido em:</b> $dtEmissao<br>            
+            <b>Assunto:</b> $assunto<br>
+            <hr size='1' width='100%'>            
+            <b>Emitido em:</b> $dtEmissao<br>
+            <b>Emissor:</b> $nomeEmissor ($matricula)<br>            
         </div>
         <div class='col-6'>
             <b>ANEXOS:</b><br>

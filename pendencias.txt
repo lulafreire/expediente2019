@@ -1,6 +1,5 @@
 4. Abas
     - Despachos emitidos
-        - Editar Despachos
         - Excluir Despachos
     - Cartas emitidas
         - Editar

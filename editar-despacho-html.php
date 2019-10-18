@@ -22,54 +22,29 @@ while($u=mysqli_fetch_array($sqlUnidade)) {
 // Recupera dados do formulário
 if(isset($_POST))
 {
-    $referencia      = utf8_decode($_POST['referencia']);
+    $id_despacho     = $_POST['id_despacho'];
+    $referencia      = $_POST['referencia'];
     $assunto         = utf8_decode($_POST['assunto']);
-    $interessado     = utf8_decode($_POST['interessado']);   
-    $texto           = utf8_encode($_POST['txtArtigo']);    
+    $interessado     = utf8_decode($_POST['interessado']);    
+    $texto           = utf8_encode($_POST['txtArtigo']);        
     $nomeEmissor     = strtoupper(utf8_decode($_POST['emissor']));
     $id_emissor      = $_POST['id_emissor'];
     $matricula       = $_POST['matricula'];
-    $funcao          = strtoupper(utf8_decode($_POST['funcao_emissor']));
+    $funcao          = strtoupper(utf8_decode($_POST['funcao_emissor']));   
 }
 
 $converte = desconversao($texto);
 $novoTexto = utf8_decode($converte);
+$textoReferencia = "$referencia|$novoTexto";
 
-// Data e Ano
-$data = date('d/m/Y');
-$ano = date('Y');
-$dataExtenso = dataExtenso($data);
+// Verifica número e data de emissão do Despacho
+$sqlNum = mysqli_query($conn, "SELECT * FROM documentos WHERE id = '$id_despacho'");
+while($n=mysqli_fetch_array($sqlNum)) {
 
-// Pronome de tratamento
-$pronomeDeTratamento = pronomeDeTratamento($cargo, $genero);
-$p = explode("|", $pronomeDeTratamento);
-$enderecamento = $p[0];
-$vocativo      = $p[1];
-
-// Caso não tenha definido o número manualmente, define de forma automatica
-if(isset($_POST['numeracao']))
-{
-    $numero = $_POST['numero'];
-
-} else {
-    
-    $numOficio = mysqli_query($conn, "SELECT numero FROM documentos WHERE tipo ='2' and data like '$ano-%' and unidade = '$codUnidade' ORDER BY numero DESC LIMIT 1");
-    $resNumAnt = mysqli_num_rows($numOficio);
-    if($resNumAnt=='')
-    {
-        $numAnt = 0;
-    }
-    else
-    {
-        while($num = mysqli_fetch_array($numOficio))
-        {
-            $numeroCompleto = $num['numero'];
-            $n = explode('/', $numeroCompleto);
-            $numAnt   = $n[0];    
-        }   
-    }
-
-    $numero = $numAnt + 1;
+    $numero = $n['numero'];
+    $data   = converteData($n['data']);
+    $ano    = anoEmissao($data);
+    $dataExtenso = dataExtenso($data);
 
 }
 
@@ -297,7 +272,7 @@ blockquote, .p {
     <div class='referencia'>
         <b>Ref.: </b>" .utf8_encode($referencia). "<br>
         <b>Int.: </b>" .utf8_encode($interessado). "<br>
-        <b>Ass.: </b>" .utf8_encode( $assunto). "<br>        
+        <b>Ass.: </b>" .utf8_encode($assunto). "<br>        
     </div>       
 
     <div class='corpo'>
@@ -325,29 +300,25 @@ if(!$resEmissor)
     $id_emissor = mysqli_insert_id($conn);
 }
 
-$textoReferencia = "$referencia|$novoTexto";
+// Atualiza os dados do novo Despacho
+$grava = mysqli_query($conn, "UPDATE documentos set emissor = '$id_emissor', interessado = '$interessado', resposta = '$id_resposta',assunto = '$assunto', texto = '$textoReferencia' WHERE id = '$id_despacho'");
 
-// Grava os dados do novo Despacho
-$grava = mysqli_query($conn, "INSERT INTO documentos (emissor, interessado, assunto, texto, numero, data, tipo, unidade) VALUES ('$id_emissor', '$interessado', '$assunto', '$textoReferencia', '$numero', curdate(), '2', '$codUnidade')");
-$id_oficio = mysqli_insert_id($conn);
+    $gravaEvento = mysqli_query($conn, "INSERT INTO eventos (data, descricao, referencia) VALUES (now(), 'DESPACHO EDITADO','$id_despacho')");
 
-// Grava o evento
-$gravaEvento = mysqli_query($conn,"insert into eventos (data, descricao, referencia) values (now(),'DESPACHO EMITIDO','$id_oficio')");
 
-// Pega da data e hora atuais
-$data = date('Ymdhis');
+
+$arquivoHtml = $_POST['arquivoHtml'];
+
 // Dá um nome dinâmico ao arquivo HTML
-$arquivo = $data.".html";
+$arquivo = "$arquivoHtml";
 // Abre o arquivo para escrita
 $file = fopen("$arquivo", "w+");
 // Escreve o conteúdo HTML
 fwrite($file, $conteudo);
 // Fecha o aqruivo
 fclose($file);
-// Move o arquivo para a pasta OFICIOS-EMITIDOS
+// Move o arquivo para a pasta DESPACHOS-EMITIDOS
 rename ($arquivo,"oficios-emitidos/".$arquivo);
-// Grava no banco de dados OFICIOS-HTML
-$grava = mysqli_query($conn, "INSERT INTO oficios_html (arquivo, referencia) values ('$arquivo','$id_oficio')");
 //Redireciona para a página dompdf.php
 header("Location: dompdf.php?arquivo=".$arquivo."&nome_arquivo=DESPACHO-".$numero."-".$ano."-".$siglaUnidade);
 

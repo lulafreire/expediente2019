@@ -212,7 +212,12 @@ blockquote, .p {
     
     font-size:14px;
     font-style: italic;
+    line-height: 0.95;
 
+}
+
+blockquote {
+    margin-bottom: 30px;
 }
 
 .fechamento {

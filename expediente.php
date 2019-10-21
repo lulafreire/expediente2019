@@ -59,7 +59,7 @@ include_once("conn.php");
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="novo-despacho.php" target="conteudo"><i class="fas fa-file-signature"></i> Emitir Despacho</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="novo-carta.php" target="conteudo"><i class="far fa-envelope"></i> Emitir Carta</a>                                           
+                        <a class="dropdown-item" href="nova-carta.php" target="conteudo"><i class="far fa-envelope"></i> Emitir Carta</a>                                           
                     </div>
                 </li>
                 <li class="nav-item dropdown">

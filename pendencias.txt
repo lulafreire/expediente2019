@@ -1,13 +1,8 @@
-3. Emitir Carta
-    - Numeração não está aumentando.
-
 4. Abas
     - Cartas emitidas
         - Editar
         - Excluir
-        - Detalhar
         - Anexar
-        - Download
 
 5. Paginação
     - Limitar links em todas as paginações

@@ -80,7 +80,7 @@ $qtCartas    = mysqli_num_rows($sqlQtCartas);
         <iframe name='despachos' width="100%" height="430" frameborder="0" scrolling="no" src="sql_despachos.php"></iframe>
     </div>
     <div class="tab-pane fade" id="cartas" role="tabpanel" aria-labelledby="cartas-tab">
-        <iframe name='cartas' width="100%" height="430" frameborder="0" scrolling="no" src="sql_cartas.php"></iframe>
+        <iframe name='cartas' width="100%" height="430" frameborder="0" scrolling="no" src="sql-cartas.php"></iframe>
     </div>
   </div>
 </div>

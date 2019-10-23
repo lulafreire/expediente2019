@@ -22,10 +22,12 @@ while($u=mysqli_fetch_array($sqlUnidade)) {
 // Recupera dados do formulário
 if(isset($_POST))
 {
-    $id_despacho     = $_POST['id_despacho'];
-    $referencia      = $_POST['referencia'];
+    $id_carta        = $_POST['id_carta'];    
     $assunto         = utf8_decode($_POST['assunto']);
-    $interessado     = utf8_decode($_POST['interessado']);    
+    $interessado     = utf8_decode($_POST['interessado']);
+    $endereco        = utf8_decode($_POST['endereco']);
+    $cidade          = utf8_decode($_POST['cidade']);
+    $cep             = $_POST['cep'];    
     $texto           = utf8_encode($_POST['txtArtigo']);        
     $nomeEmissor     = strtoupper(utf8_decode($_POST['emissor']));
     $id_emissor      = $_POST['id_emissor'];
@@ -39,7 +41,7 @@ $novoTexto = utf8_decode($converte);
 $textoEndereco = "$endereco|$cep|$cidade|$novoTexto";
 
 // Verifica número e data de emissão do Despacho
-$sqlNum = mysqli_query($conn, "SELECT * FROM documentos WHERE id = '$id_despacho'");
+$sqlNum = mysqli_query($conn, "SELECT * FROM documentos WHERE id = '$id_carta'");
 while($n=mysqli_fetch_array($sqlNum)) {
 
     $numero = $n['numero'];
@@ -180,8 +182,7 @@ body {
 .referencia {
     
     text-align: left;
-    margin-bottom: 20px;
-    margin-left: 8cm;
+    margin-bottom: 20px;    
     line-height: 1.65;    
 }
 
@@ -277,7 +278,7 @@ blockquote {
 
     <div class='referencia'>
         A(à) Senhor(a):</b><br>
-        <b>".utf8_encode($contato). "</b><br>"
+        <b>".utf8_encode($interessado). "</b><br>"
         .utf8_encode($endereco). "<br>
         $cep -" .utf8_encode($cidade). "<p>
         <b>Ass.: </b>" .utf8_encode( $assunto). "<br>        
@@ -309,9 +310,9 @@ if(!$resEmissor)
 }
 
 // Atualiza os dados do novo Despacho
-$grava = mysqli_query($conn, "UPDATE documentos set emissor = '$id_emissor', interessado = '$interessado', resposta = '$id_resposta',assunto = '$assunto', texto = '$textoEndereco' WHERE id = '$id_despacho'");
+$grava = mysqli_query($conn, "UPDATE documentos set emissor = '$id_emissor', interessado = '$interessado', resposta = '$id_resposta',assunto = '$assunto', texto = '$textoEndereco' WHERE id = '$id_carta'");
 
-    $gravaEvento = mysqli_query($conn, "INSERT INTO eventos (data, descricao, referencia) VALUES (now(), 'CARTA EDITADA','$id_despacho')");
+    $gravaEvento = mysqli_query($conn, "INSERT INTO eventos (data, descricao, referencia) VALUES (now(), 'CARTA EDITADA','$id_carta')");
 
 
 

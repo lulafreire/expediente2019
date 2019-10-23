@@ -33,6 +33,9 @@ if($numero!='') {
   $sqlOpt07 = "tipo = '2' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
   $sqlOpt08 = " OR tipo = '2' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
   $sqlOpt09 = " OR tipo = '2' AND unidade = '$codUnidade' AND numero = '$numero'";
+  $sqlOpt10 = "tipo = '3' AND unidade = '$codUnidade' AND assunto LIKE '%$numero%' OR";
+  $sqlOpt11 = " OR tipo = '3' AND unidade = '$codUnidade' AND texto LIKE '%$numero%'";
+  $sqlOpt12 = " OR tipo = '3' AND unidade = '$codUnidade' AND numero = '$numero'";
 
 } else {
 
@@ -45,9 +48,12 @@ if($numero!='') {
   $sqlOpt07 = "";
   $sqlOpt08 = "";
   $sqlOpt09 = "";
+  $sqlOpt10 = "";
+  $sqlOpt11 = "";
+  $sqlOpt12 = "";
 
 }
-
+      
 
 // Pesquisa a quantidade de ofícios Recebidos e Emitidos
 $sqlQtRec = mysqli_query($conn, "SELECT * FROM documentos WHERE 
@@ -87,6 +93,19 @@ $sqlOpt08
 $sqlOpt09");
 $qtDesp    = mysqli_num_rows($sqlQtDesp);
 
+// Pesquisa a quantidade de Cartas Emitidas
+$sqlQtCartas = mysqli_query($conn, "SELECT * FROM documentos WHERE 
+tipo = '3' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+tipo = '3' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
+tipo = '3' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+tipo = '3' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+$sqlOpt10
+tipo = '3' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+tipo = '3' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+$sqlOpt11
+$sqlOpt12");
+$qtCartas    = mysqli_num_rows($sqlQtCartas);
+
 
 ?>
 
@@ -122,6 +141,9 @@ $qtDesp    = mysqli_num_rows($sqlQtDesp);
     </li>
     <li class="nav-item">
       <a class="nav-link" title="Despachos Emitidos" id="despachos-tab" data-toggle="tab" href="#despachos" role="tab" aria-controls="despachos" aria-selected="false"><i class="fas fa-file-signature"></i> Despachos <b>Emitidos</b> (<?php echo "$qtDesp"; ?>)</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" title="Cartas Emitidas" id="cartas-tab" data-toggle="tab" href="#cartas" role="tab" aria-controls="cartas" aria-selected="false"><i class="far fa-envelope"></i> Cartas <b>Emitidas</b> (<?php echo "$qtCartas"; ?>)</a>
     </li>   
   </ul>
   <div class="tab-content" id="myTabContent">
@@ -133,6 +155,9 @@ $qtDesp    = mysqli_num_rows($sqlQtDesp);
     </div>
     <div class="tab-pane fade" id="despachos" role="tabpanel" aria-labelledby="despachos-tab">
         <iframe name='despachos' width="100%" height="400" frameborder="0" scrolling="no" src="sql_busca_despachos.php?termo=<?php echo"$termo"; ?>"></iframe>    
+    </div>
+    <div class="tab-pane fade" id="cartas" role="tabpanel" aria-labelledby="cartas-tab">
+        <iframe name='cartas' width="100%" height="400" frameborder="0" scrolling="no" src="sql_busca_cartas.php?termo=<?php echo"$termo"; ?>"></iframe>
     </div>    
   </div>
 

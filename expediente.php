@@ -83,9 +83,15 @@ include_once("conn.php");
                         <a class="dropdown-item" href="sql_contatos.php" target='conteudo'>Exibir Todos</a>                        
                     </div>
                 </li>
-                <li class="nav-item">                    
-                    <a class="nav-link" href="ajuda.php" target="conteudo" title="Ajuda"><i class="fas fa-question"></i></a>
-                </li>                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Ajuda 
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">                                                
+                        <a class="dropdown-item" href="ajuda.php" target="conteudo"><i class="fas fa-book"></i> Manual do Usuário</a>
+                        <a class="dropdown-item" href="sobre.php" data-toggle="modal" data-target="#modalSobre"><i class="fas fa-question"></i> Sobre o Aplicativo</a>                        
+                    </div>
+                </li>                               
             </ul>
             <div class="ui-widget"></div>
                 <form class="form-inline ml-auto" action="busca.php" method="POST" target="conteudo">
@@ -119,6 +125,40 @@ include_once("conn.php");
                 </ul>
             </div>
         </nav>
+        <div class="modal fade" id="modalSobre" tabindex="-1" role="dialog" aria-labelledby="Sobre o Aplicativo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TituloModalCentralizado"><strong>Expediente</strong>2019</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="img/brasao.png" width="90%">
+                        </div>
+                        <div class="col-8">
+                            Este aplicativo foi desenvolvido em plataforma <i>open source</i> para uso interno. Para dúvidas e sugestões, entre em contato com o desenvolvedor.
+                            <br>
+                            <br>
+                            <small> <i class="far fa-copyright fa-flip-horizontal"></i> 2019. <b>Luiz Alberto Freire de Oliveira</b><br>
+                            <font class="text-muted">
+                            <i class="fas fa-at"></i> luiz.aoliveira@inss.gov.br<br>
+                            <i class="fab fa-whatsapp"></i> (74) 98828-6336<br>
+                            <i class="fab fa-github"></i> <a href="http://www.github.com/lulafreire/expediente2019/" title="Acessar o Código Fonte no GitHub">/lulafreire/expediente2019</a></font></small>
+                        </div>
+                    </div>            
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+            </div>
+        </div>
+        </div>
 
         
         

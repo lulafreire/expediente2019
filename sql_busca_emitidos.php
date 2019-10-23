@@ -112,12 +112,15 @@ if($numero!='') {
 
             // Selecionar para paginação
             $res_emitidos = mysqli_query($conn, "SELECT * FROM documentos WHERE 
-            tipo = '0' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
+             tipo = '0' AND unidade = '$codUnidade' AND interessado LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
             tipo = '0' AND unidade = '$codUnidade' AND interessado LIKE '%$termo%' OR 
             tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
             tipo = '0' AND unidade = '$codUnidade' AND assunto LIKE '%$termo%' OR
+            $sqlOpt03 
             tipo = '0' AND unidade = '$codUnidade' AND texto LIKE _utf8 '%$termo%' COLLATE utf8_unicode_ci OR 
-            tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$termo%' ORDER by id DESC LIMIT $inicio, $oficiosPorPagina");
+            tipo = '0' AND unidade = '$codUnidade' AND texto LIKE '%$termo%'
+            $sqlOpt04
+            $sqlOpt06 ORDER by id DESC LIMIT $inicio, $oficiosPorPagina");
                         
             while($r=mysqli_fetch_array($res_emitidos)) {
 

@@ -48,7 +48,13 @@ if($resposta!='0') {
     $deleteOficio = mysqli_query($conn, "DELETE FROM documentos WHERE id='$id'");
 
     // Deleta os arquivos HTML referentes aos Ofícios Emitidos
+    $sqlHtml = mysqli_query($conn, "SELECT * FROM oficios_html WHERE referencia = '$id'");
+    while($h = mysqli_fetch_array($sqlHtml)) {
+
+        $arquivoHtml = $h['arquivo'];
+    }
     $deleteHtml = mysqli_query($conn, "DELETE FROM oficios_html WHERE referencia = '$id'");
+    unlink("oficios-emitidos/$arquivoHtml");
 
     // Verifica se foi utilizado como resposta a algum ofício
     $sqlResposta = mysqli_query($conn, "SELECT * FROM documentos WHERE resposta = '$id'");

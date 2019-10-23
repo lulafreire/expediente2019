@@ -32,7 +32,14 @@ $deleteOcorrencias = mysqli_query($conn, "DELETE FROM eventos WHERE referencia =
 $deleteOficio = mysqli_query($conn, "DELETE FROM documentos WHERE id='$id'");
 
 // Deleta os arquivos HTML referentes aos Ofícios Emitidos
+$sqlHtml = mysqli_query($conn, "SELECT * FROM oficios_html WHERE referencia = '$id'");
+while($h = mysqli_fetch_array($sqlHtml)) {
+
+    $arquivoHtml = $h['arquivo'];
+}
 $deleteHtml = mysqli_query($conn, "DELETE FROM oficios_html WHERE referencia = '$id'");
+
+unlink("oficios-emitidos/$arquivoHtml");
 
 header("Location: $location.php?pagina=$pagina");
 

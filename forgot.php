@@ -34,7 +34,7 @@
       <input name="codigo" type="text" class="form-control mb-3" onkeypress="formatar_mascara(this, '##.###.###')" placeholder="Código da Unidade" required autofocus>
       <button name="login" id="login" class="btn btn-lg btn-primary btn-block" type="submit">Enviar</button>
     </form>        
-      <p class="mt-3 mb-3 text-muted">&copy; 2019, Lula Freire (luiz.aoliveira)</p>
+      <p class="mt-3 mb-3 text-muted"><i class="far fa-copyright fa-flip-horizontal"></i> 2019, Lula Freire (luiz.aoliveira)</p>
 </center>
 
 

@@ -124,7 +124,7 @@
         </div>
       </form>        
       </div>
-      <p class="mt-3 mb-3 text-muted">&copy; 2019, Lula Freire (luiz.aoliveira)</p>
+      <p class="mt-3 mb-3 text-muted"><i class="far fa-copyright fa-flip-horizontal"></i> 2019, Lula Freire (luiz.aoliveira)</p>
 
         <?php
 

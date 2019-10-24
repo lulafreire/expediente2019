@@ -88,8 +88,11 @@ include_once("conn.php");
                         Ajuda 
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">                                                
-                        <a class="dropdown-item" href="ajuda.php" target="conteudo"><i class="fas fa-book"></i> Manual do Usuário</a>
-                        <a class="dropdown-item" href="sobre.php" data-toggle="modal" data-target="#modalSobre"><i class="fas fa-question"></i> Sobre o Aplicativo</a>                        
+                        <a class="dropdown-item" href="anexos/manual-do-usuario.pdf" target="conteudo"><i class="fas fa-book"></i> Manual do Usuário</a>
+                        <a class="dropdown-item" href="sobre.php" data-toggle="modal" data-target="#modalSobre"><i class="fas fa-question"></i> Sobre o Aplicativo</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="anexos/manual-de-redacao.pdf" target="conteudo">Manual de Redação Presidência da República</a>
+                        <a class="dropdown-item" href="anexos/dec-9758-2019.pdf" target="conteudo">Decreto 9.758/2019</a>
                     </div>
                 </li>                               
             </ul>

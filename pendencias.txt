@@ -2,7 +2,3 @@
     - Limitar links em todas as paginações
     - Não exibir paginação nos resultados zerados
 
-6. Ajuda
-    - Sobre o aplicativo (janela)
-    - Manual do usuário (PDF)
-

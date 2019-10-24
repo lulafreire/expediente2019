@@ -41,8 +41,8 @@ if($resUnidade=='') {
 
     require_once("node_modules/phpmailer/class.phpmailer.php");
 
-    define('GUSER', 'luizalbertofreire@gmail.com');	// <-- Insira aqui o seu GMail
-    define('GPWD', 'Beto.1998');		// <-- Insira aqui a senha do seu GMail
+    define('GUSER', '******');	// <-- Insira aqui o seu GMail
+    define('GPWD', '******');		// <-- Insira aqui a senha do seu GMail
 
     function smtpmailer($para, $de, $de_nome, $assunto, $corpo) { 
         global $error;

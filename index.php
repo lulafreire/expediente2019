@@ -99,6 +99,7 @@
             break;
             case 2: $msgErro = "A chave de Acesso está incorreta. Tente novamente ou clique em \"Recuperar Chave de Acesso\"."; 
             break;
+            case 3: $msgErro = "Não foi possível enviar o e-mail, informe o código correto da Unidade ou entre em contato com o desenvolvedor.";
 
         }
     }
@@ -110,13 +111,13 @@
   <body class="text-center" style="background-color: #0f3d5e;">
 <center>
     
-    <form class="form-signin col-4 text-light" method="post" action="acesso.php">
+    <form class="form-signin col-4 text-light" autocomplete="off" method="post" action="acesso.php">
       <img class="mb-4 my-3" src="img/brasao.png">
       <h1 class="h3 mb-3 font-weight-normal text-light">Login <b>Expediente</b></h1>
       <label for="matricula" class="sr-only">Código da Unidade</label>
-      <input name="codigo" type="text" class="form-control mb-3" onkeypress="formatar_mascara(this, '##.###.###')" maxlength="10" placeholder="Código da Unidade" required autofocus>
+      <input name="codigo" autocomplete="off" type="text" class="form-control mb-3" onkeypress="formatar_mascara(this, '##.###.###')" maxlength="10" placeholder="Código da Unidade" required autofocus>
       <label for="password" class="sr-only">Chave de Acesso</label>
-      <input name="chave" type="password" class="form-control mb-3" placeholder="Chave de Acesso">
+      <input name="chave" autocomplete="off" type="password" class="form-control mb-3" placeholder="Chave de Acesso">
       <i class="fas fa-key"></i> <a href="forgot.php"><span class="text-light link mb-3">Recuperar Chave de Acesso.</span></a>
       <div class="row">
         <div class="col-12 mt-2">

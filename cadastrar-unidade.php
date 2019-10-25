@@ -83,7 +83,35 @@
     }
     </style>
 
-    <?php include("mascara_data.php"); ?>
+    <?php include("mascara_data.php"); 
+    
+    // Mensagens de erro
+    if(isset($_GET['erro'])) {
+
+        $erro = $_GET['erro'];
+
+        switch($erro) {
+
+            case 1: $msgErro = "Não foi possível enviar o e-mail. Envie a chave para a Unidade manualmente."; 
+            break;            
+
+        }
+    }
+
+    // Mensagens de sucesso
+    if(isset($_GET['msg'])) {
+
+        $msg = $_GET['msg'];
+
+        switch($msg) {
+
+            case 1: $msgSucesso = "A chave de acesso foi enviada para o e-mail da Unidade cadastrada.";
+            break;
+
+        }
+    }
+    
+    ?>
 
 
 </script>
@@ -93,24 +121,30 @@
   <body class="text-center" style="background-color: #0f3d5e;">
 <center>
     
-    <form class="form-signin col-7 text-light" method="post" action="gravar-unidade.php">
+    <form class="form-signin col-8 text-light" method="post" action="gravar-unidade.php">
       <img class="mb-4 my-3" src="img/brasao.png">
       <h1 class="h3 mb-3 font-weight-normal text-light">Cadastro <b>Expediente</b></h1>
       
         <div class="row">
-            <div class="col-3">
-                <input name="codigo" type="text" class="form-control mb-3" onkeypress="formatar_mascara(this, '##.###.###')" placeholder="Código OL" required autofocus>
+            <div class="col-2">
+                <input name="codigo" type="text" class="form-control mb-3" onkeypress="formatar_mascara(this, '##.###.###')" maxlength="10" placeholder="Código OL" required autofocus>
             </div>
-            <div class="col-6">
+            <div class="col-8">
                 <input name="nome" type="text" class="form-control mb-3" placeholder="Nome da Unidade" required>
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <input name="sigla" type="text" class="form-control mb-3" placeholder="Sigla" required>
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                <input name="end" type="text" class="form-control mb-3" placeholder="Endereço completo - CEP - Cidade/UF" required>
+            <div class="col-6">
+                <input name="end" type="text" class="form-control mb-3" placeholder="Endereço" required>
+            </div>
+            <div class="col-2">
+                <input name="cep" type="text" class="form-control mb-3" onkeypress="formatar_mascara(this, '##.###-###')" maxlength="10" placeholder="CEP" required>
+            </div>
+            <div class="col-4">
+                <input name="cidade" type="text" class="form-control mb-3" placeholder="Cidade-UF" required>
             </div>
         </div>
         <div class="row">
@@ -126,245 +160,41 @@
         </div>
 
         <div class="row">
-            <div class="col-12 mt-2">
-                <button name="cadastrar" id="cadastrar" class="col-4 btn btn-lg btn-success btn-block text-center" type="submit">Cadastrar</button>
+            <div class="col-6 mt-2">
+                <button name="cadastrar" id="cadastrar" class="col-6 btn btn-lg btn-success btn-block text-center" type="submit">Cadastrar</button>
+            </div>
+            </form> 
+            <div class="col-6 mt-2">
+                <a href="index.php" id="login" class="col-6 btn btn-lg btn-primary btn-block text-center">Login</a>
             </div>        
         </div>
-    </form>        
-      <p class="mt-3 mb-3 text-muted">&copy; 2019, Lula Freire (luiz.aoliveira)</p>
+          
+      <p class="mt-3 mb-3 text-muted"><i class="far fa-copyright fa-flip-horizontal"></i> 2019, Lula Freire (luiz.aoliveira)</p>
+
+
+<?php
+
+    if(isset($_GET['erro'])){
+
+        echo "
+        <div class='alert alert-warning col-8' role='alert'>
+            <i class='fas fa-exclamation-triangle text-danger'></i> <strong>Erro!</strong> $msgErro
+        </div>";
+
+    }
+    
+    if(isset($_GET['msg'])) {
+
+        echo "
+        <div class='alert alert-success col-8' role='alert'>
+        <i class='fas fa-check'></i> <strong>Sucesso!</strong> $msgSucesso
+        </div>";
+    }
+
+?>
+
 </center>
 
-<!-- Modal Cadastre-se -->
-<div class="modal" id="modalCadastro" data-backdrop="static">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-user-plus"></i> Cadastre-se</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form autocomplete="off" role="form" action="cadastro" method="POST" enctype="multipart/form-data">
-                    <div class="container-fluid text-left">
-                        <div class="row">
-                            <div class="col-3">
-                                <img class="img-fluid" id="image-preview" src="img/users/anonimo.jpg">
-                            </div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <div class="col">
-                                        <h6 class="modal-title mb-2"><i class="fas fa-camera"></i> Escolher imagem</h5></h4>
-                                        <input type="file" accept="image/*" class="form-control-file" name="file" id="file">
-                                        <small class="form-text text-muted">Utilize imagens com extensão JPG, com no máximo 2Mb.</small>
-                                        <hr class="text-muted">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <label class="mb-0" for="nome">Nome</label>
-                                        <input type="text" value="" class="form-control mb-1" name="nome" id="nome" placeholder="Seu nome completo" required>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="mb-0" for="matricula">Matrícula</label>
-                                        <input type="text" value="" class="form-control mb-1" name="matricula" id="matricula" placeholder="Matrícula" required>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="mb-0" for="cpf">CPF</label>
-                                        <input type="text" value="" class="form-control mb-1" name="cpf" id="cpf" maxlength='14' onkeypress="formatar_mascara(this, '###.###.###-##')" placeholder="CPF">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="mb-0" for="email">E-mail</label>
-                                        <input type="text" value="" class="form-control mb-1" name="email" id="email" placeholder="Seu e-mail">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="mb-0" for="cargo">Cargo</label>
-                                        <select class="form-control" name="cargo" id="cargo">
-                                            <option value="Técnico do Seguro Social" >Técnico do Seguro Social</option>
-                                            <option value="Analista do Seguro Social" >Analista do Seguro Social</option>
-                                            <option value="Médico Perito" >Médico Perito</option>
-                                            <option value="Estagiário">Estagiário</option>
-                                        </select>
-                                    </div>
-                                </div>            
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="mb-0" for="lotacao">Lotação</label>
-                                        <input type="text" value="" class="form-control mb-1" name="lotacao" id="lotacao" placeholder="Código da Unidade" required>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="mb-0" for="dt_ingresso">Data de Ingresso</label>
-                                        <input type="text" value="" class="form-control mb-1" name="dt_ingresso" id="dt_ingresso" maxlength='10' onkeypress="formatar_mascara(this, '##/##/####')" placeholder="Data de Ingresso">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="mb-0" for="telefone">Telefone</label>
-                                        <input type="text" value="" class="form-control mb-0" name="telefone" id="telefone" maxlength='13' onkeypress="formatar_mascara(this, '##.#####-####')" placeholder="Telefone">
-                                        <small class="text-muted"><input type="checkbox" name="publicTelefone" id="publicTelefone" value="1"> Deixar oculto para outros usuários*</small>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="mb-0" for="dt_nascimento">Data de Nascimento</label>
-                                        <input type="text" value="" class="form-control mb-1" name="dt_nascimento" id="dt_nascimento" maxlength='10' onkeypress="formatar_mascara(this, '##/##/####')" placeholder="Data de Nascimento">
-                                        <small class="text-muted"><input type="checkbox" name="publicDtNascimento" id="publicDtNascimento" value="1"> Deixar oculto para outros usuários*</small>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <label class="mb-0" for="nit">NIT</label>
-                                        <input type="text" value="" class="form-control mb-1" name="nit" id="nit" placeholder="NIT/PIS/PASEP">
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col">
-                                        <label class="mb-0" for="endereco">Endereço completo</label>
-                                        <input type="text" value="" class="form-control mb-1" name="endereco" id="endereco" placeholder="Endereço completo">
-                                    </div>
-                                </div>                                
-                                <div class="row">
-                                    <div class="col">
-                                        <label class="mb-0" for="senha">Senha</label>
-                                        <input type="password" value="" class="form-control mb-1" name="senha" id="senha" placeholder="Sua senha" required>
-                                    </div>
-                                </div>
-                                <hr class="text-muted mb-0">
-                                <small class="text-muted"><i>(*) Apenas usuários com perfil de gestor visualizarão os dados ocultos.</i></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-success" value="Cadastrar"><button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                </div>
-                
-                </form>
-        </div>
-    </div>
-</div>
-<script>
-    document.querySelector('#file').addEventListener('change', function(){
-      
-      var file = new FileReader();
-    
-      file.onload = function() {
-        
-        document.querySelector('#image-preview').src = file.result;
-    
-      }
-    
-      file.readAsDataURL(this.files[0]);
-    
-    });
-</script>
-
-<script>
-function autocomplete(inp, arr) {
-    /*the autocomplete function takes two arguments,
-    the text field element and an array of possible autocompleted values:*/
-    var currentFocus;
-    /*execute a function when someone writes in the text field:*/
-    inp.addEventListener("input", function(e) {
-        var a, b, i, val = this.value;
-        /*close any already open lists of autocompleted values*/
-        closeAllLists();
-        if (!val) { return false;}
-        currentFocus = -1;
-        /*create a DIV element that will contain the items (values):*/
-        a = document.createElement("DIV");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        /*append the DIV element as a child of the autocomplete container:*/
-        this.parentNode.appendChild(a);
-        /*for each item in the array...*/
-        for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-            /*create a DIV element for each matching element:*/
-            b = document.createElement("DIV");
-            /*make the matching letters bold:*/
-            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-            b.innerHTML += arr[i].substr(val.length);
-            /*insert a input field that will hold the current array item's value:*/
-            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-            /*execute a function when someone clicks on the item value (DIV element):*/
-            b.addEventListener("click", function(e) {
-                /*insert the value for the autocomplete text field:*/
-                inp.value = this.getElementsByTagName("input")[0].value;
-                /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
-                closeAllLists();
-            });
-            a.appendChild(b);
-        }
-        }
-    });
-    /*execute a function presses a key on the keyboard:*/
-    inp.addEventListener("keydown", function(e) {
-        var x = document.getElementById(this.id + "autocomplete-list");
-        if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
-        /*If the arrow DOWN key is pressed,
-        increase the currentFocus variable:*/
-        currentFocus++;
-        /*and and make the current item more visible:*/
-        addActive(x);
-        } else if (e.keyCode == 38) { //up
-        /*If the arrow UP key is pressed,
-        decrease the currentFocus variable:*/
-        currentFocus--;
-        /*and and make the current item more visible:*/
-        addActive(x);
-        } else if (e.keyCode == 13) {
-        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-        e.preventDefault();
-        if (currentFocus > -1) {
-            /*and simulate a click on the "active" item:*/
-            if (x) x[currentFocus].click();
-        }
-        }
-    });
-    function addActive(x) {
-    /*a function to classify an item as "active":*/
-    if (!x) return false;
-    /*start by removing the "active" class on all items:*/
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = (x.length - 1);
-    /*add class "autocomplete-active":*/
-    x[currentFocus].classList.add("autocomplete-active");
-    }
-    function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
-    for (var i = 0; i < x.length; i++) {
-        x[i].classList.remove("autocomplete-active");
-    }
-    }
-    function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document,
-    except the one passed as an argument:*/
-    var x = document.getElementsByClassName("autocomplete-items");
-    for (var i = 0; i < x.length; i++) {
-        if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
-        }
-    }
-    }
-    /*execute a function when someone clicks in the document:*/
-    document.addEventListener("click", function (e) {
-        closeAllLists(e.target);
-    });
-}
-
-/*An array containing all the country names in the world:*/
-var countries = [{loop="$q"}"{$value.codigo}-{$value.nome}",{/loop}];
-
-/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-autocomplete(document.getElementById("lotacao"), countries);
-</script>
 
     <!-- JavaScript (Opcional) -->
     <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->

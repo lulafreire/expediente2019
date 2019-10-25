@@ -2,3 +2,8 @@
     - Limitar links em todas as paginações
     - Não exibir paginação nos resultados zerados
 
+6. Ajustes
+    - Mascarar Campo CEP.
+    - Melhorar texto para indicar quando é ofício de resposta
+    - Botões para voltar (javascript)
+

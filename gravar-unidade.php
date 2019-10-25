@@ -92,9 +92,14 @@
     $nome   = utf8_decode($_POST['nome']);
     $sigla  = $_POST['sigla'];
     $end    = utf8_decode($_POST['end']);
+    $cep    = $_POST['cep'];
+    $cidade = utf8_decode($_POST['cidade']);
     $tel    = $_POST['tel'];
     $voip   = $_POST['voip'];
     $email  = $_POST['email'];
+
+    // Endereço completo
+    $end = "$end - $cep - $cidade";
     
     // Gera uma chave a partir do Código OL combinado com a data
     $data = date('Ymdhis');
@@ -102,7 +107,7 @@
     $chave = substr(preg_replace("/[^0-9]/", "", md5($comb)), 0, 5);
 
     //Grava
-    $grava = mysqli_query($conn, "INSERT into unidades (cod, nome, sigla, end, tel, email, voip, chave) VALUES ('$codigo','$nome','$sigla','$end','$tel','$email','$voip','$chave')");
+    $grava = mysqli_query($conn, "INSERT into unidades (cod, nome, sigla, end, cidade, tel, email, voip, chave) VALUES ('$codigo','$nome','$sigla','$end','$cidade','$tel','$email','$voip','$chave')");
            
     ?>
 
@@ -126,7 +131,7 @@
 <div class="row">
     <div class="container-fluid col-8 text-center">
         <a class="btn btn-primary" href="http://localhost/expediente2019/cadastrar-unidade.php" role="button">Cadastrar Nova Unidade</a>
-        <a class="btn btn-info" href="http://localhost/expediente2019/cadastrar-unidade.php" role="button"><i class="far fa-envelope"></i> Enviar chave por e-mail</a>
+        <a class="btn btn-info" href="http://localhost/expediente2019/enviar-chave.php?codigo=<?php echo "$codigo"; ?>" role="button"><i class="far fa-envelope"></i> Enviar chave por e-mail</a>
     </div>
 </div>
 

@@ -3,7 +3,7 @@ include("conn.php");
 include("functions.php");
 
 // Recupera dados do formulário
-$codigo = $_POST['codigo'];
+$codigo = $_GET['codigo'];
 
 // Verifica se a unidade está cadastrada
 $sqlUnidade = mysqli_query($conn, "SELECT * FROM unidades WHERE cod = '$codigo'");
@@ -19,17 +19,10 @@ if($resUnidade=='') {
 
         $email = $u['email'];
         $nome  = utf8_encode($u['nome']);
+        $chave = $u['chave'];
 
     }
-
-    // Cria a nova chave pela combinação do código com a data
-    $data = date('Ymdhis');
-    $comb = $codigo.$data;
-    $chave = substr(preg_replace("/[^0-9]/", "", md5($comb)), 0, 5);
-
-    // Atualiza o banco de dados
-    $grava = mysqli_query($conn, "UPDATE unidades SET chave = '$chave' WHERE cod = '$codigo'");
-
+    
     require_once("node_modules/phpmailer/class.phpmailer.php");
 
     $html = "
@@ -37,8 +30,9 @@ if($resUnidade=='') {
         <center>
         <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Coat_of_arms_of_the_United_States_of_Brazil.svg/766px-Coat_of_arms_of_the_United_States_of_Brazil.svg.png' height='100'><br>
         <strong><h2>Expediente2019</h2></strong><br>
-        Você está recebendo a nova chave de acesso ao aplicativo <strong>Expediente</strong>2019.<p>
-        Utilize a chave <strong>".$chave. "</strong> para acessar no endereço abaixo.
+        Prezado(a) Gestor(a) da <strong>$nome</strong>, bem-vindo(a)! 
+        <p>Você está recebendo a chave de acesso ao aplicativo <strong>Expediente</strong>2019.
+        <p>Utilize a chave <strong>".$chave. "</strong> para acessar no endereço abaixo.
         <p><strong>http://10.48.124.172/expediente2019/
         </center>
     </body>";
@@ -62,11 +56,11 @@ if($resUnidade=='') {
 
     if($Mailer->Send()) {
 
-        Header("location:http://localhost/expediente2019/index.php?msg=3");
+        Header("location:http://localhost/expediente2019/cadastrar-unidade.php?msg=1");
     
     } else {
     
-        Header("location:http://localhost/expediente2019/index.php?erro=3");
+        Header("location:http://localhost/expediente2019/cadastrar-unidade.php?erro=1");
     
     }
     

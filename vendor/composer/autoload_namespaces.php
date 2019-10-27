@@ -7,5 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Svg\\' => array($vendorDir . '/phenx/php-svg-lib/src'),
+    'Slim' => array($vendorDir . '/slim/slim'),
     'Sabberworm\\CSS' => array($vendorDir . '/sabberworm/php-css-parser/lib'),
+    'Rain' => array($vendorDir . '/rain/raintpl/library'),
 );

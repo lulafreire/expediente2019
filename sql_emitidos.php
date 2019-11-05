@@ -44,8 +44,8 @@ $codUnidade = $_SESSION['codUnidade'];
                 <th scope="col">Número</th>
                 <th scope="col">Destinatário</th>
                 <th scope="col">Cargo - Órgão</th>
-                <th scope="col">Emitido em</th>
-                <th scope="col">Recebido em</th>
+                <th scope="col">Emitido</th>
+                <th scope="col">Recebido</th>
                 <th scope="col"><i class="fas fa-check" title="Status"></i></th>   
                 <th scope="col"><i class='far fa-file-alt' title="Detalhes"></i></th>
                 <th scope="col"><i class="far fa-edit" title="Editar"></i></i></th>
@@ -70,7 +70,7 @@ $codUnidade = $_SESSION['codUnidade'];
             $pagina = (isset($_GET['pagina']))? $_GET['pagina']: 1;
                     
             // Ofícios por página
-            $oficiosPorPagina = 7;
+            $oficiosPorPagina = 4;
 
             // Total de páginas
             $totalPaginas = ceil($qtEmitidos / $oficiosPorPagina);

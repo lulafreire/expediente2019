@@ -33,7 +33,7 @@ if(isset($_POST))
     $id_contato      = $_POST['id_contato'];
     $assunto         = utf8_decode($_POST['assunto']);
     $texto           = utf8_encode($_POST['txtArtigo']);
-    $cargo           = $_POST['cargo'];
+    $cargo           = utf8_decode($_POST['cargo']);
     $orgao           = utf8_decode($_POST['orgao']);
     $endereco        = utf8_decode($_POST['endereco']);
     $cep             = $_POST['cep'];

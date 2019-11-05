@@ -65,7 +65,7 @@ while($u=mysqli_fetch_array($sqlUnidade)) {
             $pagina = (isset($_GET['pagina']))? $_GET['pagina']: 1;
                     
             // Contatos por página
-            $contatosPorPagina = 7;
+            $contatosPorPagina = 4;
 
             // Total de páginas
             $totalPaginas = ceil($qtContatos / $contatosPorPagina);

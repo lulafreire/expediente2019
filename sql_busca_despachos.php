@@ -112,7 +112,7 @@ if($numero!='') {
             $pagina = (isset($_GET['pagina']))? $_GET['pagina']: 1;            
                     
             // Ofícios por página
-            $oficiosPorPagina = 5;
+            $oficiosPorPagina = 4;
 
             // Total de páginas
             $totalPaginas = ceil($qtdespachos / $oficiosPorPagina);

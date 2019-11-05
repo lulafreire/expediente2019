@@ -115,7 +115,7 @@ if($numero!='') {
             $pagina = (isset($_GET['pagina']))? $_GET['pagina']: 1;
                     
             // Ofícios por página
-            $cartasPorPagina = 5;
+            $cartasPorPagina = 4;
 
             // Total de páginas
             $totalPaginas = ceil($qtcartas / $cartasPorPagina);

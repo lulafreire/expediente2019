@@ -18,7 +18,7 @@
 				$nome_emissor = $dados['nome'];
 			}
 
-			$data['value'] = $fetch['id']." - Ofício nº ".$fetch['numero'].", de ".$nome_emissor.", emitido em ".converteData($fetch['data']); 
+			$data['value'] = $fetch['id']." - Ofício nº ".$fetch['numero'].", de ".utf8_encode($nome_emissor).", emitido em ".converteData($fetch['data']); 
 			array_push($list, $data);
 		}
 	}

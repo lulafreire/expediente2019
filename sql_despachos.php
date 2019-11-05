@@ -68,7 +68,7 @@ $codUnidade = $_SESSION['codUnidade'];
             $pagina = (isset($_GET['pagina']))? $_GET['pagina']: 1;
                     
             // Ofícios por página
-            $despachosPorPagina = 7;
+            $despachosPorPagina = 4;
 
             // Total de páginas
             $totalPaginas = ceil($qtdespachos / $despachosPorPagina);

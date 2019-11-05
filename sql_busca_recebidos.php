@@ -64,8 +64,8 @@ if($numero!='') {
                 <th scope="col">Nº</th>
                 <th scope="col">Emissor</th>
                 <th scope="col">Cargo - Órgão</th>
-                <th scope="col">Emitido em</th>
-                <th scope="col">Recebido em</th>
+                <th scope="col">Emitido</th>
+                <th scope="col">Recebido</th>
                 <th scope="col">Prazo</th>
                 <th scope="col"><i class="fas fa-check" title="Status"></i></th>   
                 <th scope="col"><i class='far fa-file-alt' title="Detalhes"></i></th>
@@ -95,7 +95,7 @@ if($numero!='') {
             $pagina = (isset($_GET['pagina']))? $_GET['pagina']: 1;
             
             // Ofícios por página
-            $oficiosPorPagina = 5;
+            $oficiosPorPagina = 4;
 
             // Total de páginas
             $totalPaginas = ceil($qtRecebidos / $oficiosPorPagina);

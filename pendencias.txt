@@ -7,3 +7,6 @@
     - Melhorar texto para indicar quando é ofício de resposta
     - Botões para voltar (javascript)
 
+7. CEP
+    - Reconhecer cidade quando digitar o CEP.
+

@@ -13,7 +13,7 @@
     "express-dom-pdf": "^1.0.3",
     "font-awesome": "4.7.0",
     "jquery": "^3.3.1",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.0",
     "popper.js": "^1.15.0"
   },
   "devDependencies": {
